@@ -20,7 +20,7 @@ public class ContentPages {
         this.context = c;
         pagesList = new ArrayList<Fragment>();
         pagesList.add(new TestFragment());
-        pagesList.add(new TestFragment());
+        pagesList.add(new TestFragment2());
     }
 
     public static ContentPages getContentPages(Context c) {

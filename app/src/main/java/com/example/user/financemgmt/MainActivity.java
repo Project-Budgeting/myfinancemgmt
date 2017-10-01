@@ -12,6 +12,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     private ArrayList<Fragment> pagesList; // Значения страниц viewpager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
