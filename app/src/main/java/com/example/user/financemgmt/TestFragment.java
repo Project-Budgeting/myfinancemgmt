@@ -13,9 +13,10 @@ import java.util.ArrayList;
 
 public class TestFragment extends Fragment {
 
-
+// следует переименовать в recyclerView
     //Объявим RecyclerView
     RecyclerView rvMain;
+//     следует переименовать в carsAdapter
     //И его адаптер
     RecViewAdapt Adapter;
 

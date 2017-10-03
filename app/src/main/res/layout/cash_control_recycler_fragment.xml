@@ -1,3 +1,6 @@
+<!-- Лучше не указывать "recycler" в названии файла.
+просто "cash_control_fragment". Иначе если разметка в будущем
+поменяется, то нпзвание уже не будет соответсвовать действительности-->
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
