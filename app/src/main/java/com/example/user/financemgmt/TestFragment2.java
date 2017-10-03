@@ -26,6 +26,7 @@ import java.util.List;
  * Created by PalibinFamily on 30.09.2017.
  */
 
+// У классов должны быть вменяемые названия
 public class TestFragment2 extends Fragment {
     float expensest[] = {1276.5f, 1858.56f, 3450.00f, 19800.25f, 2700.00f, 5780.31f};
     String category[] = {"Проезд", "Заправка", "Квартплата", "Еда", "Хоз. товары", "Прочие"};
@@ -41,6 +42,7 @@ public class TestFragment2 extends Fragment {
         View v = inflater.inflate(R.layout.journal_fragment,container, false);
 
         List<PieEntry> pieEntries = new ArrayList<>();
+//         где пробелы?
         for (int i=0; i<expensest.length;i++){
             pieEntries.add(new PieEntry(expensest[i], category[i]));
         }
