@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 1. Вкладки должны быть видно всегда, поэтому PagerTabStrip не подходит.
+ Необходимо использовать TabLayout 
+2. Поскольку разметка экрана довольно простая, ConstraintLayout можно
+заменить обычным LinearLayout
+3. Ширина viewPager должна быть на весь экран.
+4. Зачем нужны layout_editor_absoluteX/Y ?-->
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
