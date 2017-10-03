@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+//     адаптер лучше сделать отдельным классом и или передавать ему фрагменты 
+//     в конструктор или генерировать их в конструкторе адаптера автоматически
     private ArrayList<Fragment> pagesList; // Значения страниц viewpager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
