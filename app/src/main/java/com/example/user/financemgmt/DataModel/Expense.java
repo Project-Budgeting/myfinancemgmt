@@ -9,8 +9,8 @@ import java.util.GregorianCalendar;
 
 public class Expense {
     private Decreasable source; //объект списания средств
-   // private Usage usage;        //TODO дописать объект Usage(категория назначение платежа, трата)
-    private long cost;          //Стоимость траты
+    // private Usage usage; //TODO дописать объект Usage(категория назначение платежа, трата)
+    private long cost; //Стоимость траты
     GregorianCalendar payDate; //Дата совершение платежа
 
     public Expense(Decreasable source, long cost, GregorianCalendar Date /*, Usage usage*/) {
