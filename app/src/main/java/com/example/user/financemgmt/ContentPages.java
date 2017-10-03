@@ -11,6 +11,8 @@ import java.util.ArrayList;
  * Данный класс реализует паттерн Singleton
  */
 
+// городить Singleton для получение фрагментов для адаптера - лишнее. 
+// Достаточно фрагменты передать/создать в конструкторе адаптера, и хранить в самом адаптере
 public class ContentPages {
     private static ContentPages singleObject;
     private ArrayList<Fragment> pagesList;       //лист значений табов ViewPager
