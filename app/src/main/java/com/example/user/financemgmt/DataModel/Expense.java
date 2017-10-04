@@ -9,14 +9,14 @@ import java.util.GregorianCalendar;
 
 public class Expense {
     private Decreasable source; //объект списания средств
-    // private Usage usage; //TODO дописать объект Usage(категория назначение платежа, трата)
+     private Usage usage; //Назначение траты
     private long cost; //Стоимость траты
     GregorianCalendar payDate; //Дата совершение платежа
 
-    public Expense(Decreasable source, long cost, GregorianCalendar Date /*, Usage usage*/) {
+    public Expense(Decreasable source, long cost, GregorianCalendar Date , Usage usage) {
         this.source = source;
         this.cost = cost;
         this.payDate=Date;
-        //this.usage = usage;
+        this.usage = usage;
     }
 }

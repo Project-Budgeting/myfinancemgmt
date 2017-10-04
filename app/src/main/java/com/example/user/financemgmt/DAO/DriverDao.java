@@ -1,6 +1,7 @@
 package com.example.user.financemgmt.DAO;
 
 import com.example.user.financemgmt.DataModel.CashSource;
+import com.example.user.financemgmt.DataModel.JournalRecord;
 import com.example.user.financemgmt.TestStorageForDataObjects.Ballance;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class DriverDao {
 
 
     /**********************************************
-    *Блок кода по работе с объектами типа CashSource
+    *Блок кода по работе с хранилищем типа CashSource
     **************************************************/
 
     private static CashSourceDao cashSourceDriver = actualFactory.getCashSourceDAO();
@@ -53,15 +54,26 @@ public class DriverDao {
     }
 
     //Увеличить поле "свободные средства"
-    public static void increaseFreeCash(long amount) {
+    public static void increaseFreeCashOfBallance(long amount) {
         Ballance ballance = getBallance();
         ballance.setFreeCash(ballance.getFreeCash()+ amount);
     }
 
     //Уменьшить поле "Свободные средства"
-    public  static void decreaseFreeCash(long amount) {
+    public  static void decreaseFreeCashOfBallance(long amount) {
         Ballance ballance = getBallance();
         ballance.setFreeCash(ballance.getFreeCash() - amount);
+    }
+
+    /**********************************************
+     Блок кода по работе с хранилищем JournalStorage
+     ***************************************************/
+    private static JournalDao journalDao = actualFactory.getJournalDao();
+
+    //Вставка записи в журнал
+    public static void insertRecordInJournal(JournalRecord jr){
+        journalDao.insertJournalRecordByDate(jr);
+
     }
 
 }

@@ -21,8 +21,9 @@ public class CashSource implements Decreasable {
     public CashSource(String name, long availableCash) {
         this.name = name;
         this.availableCash = availableCash;
-        DriverDao.increaseFreeCash(availableCash); // Отражаем доход в объекте Балланса
+        DriverDao.increaseFreeCashOfBallance(availableCash); // Отражаем доход в объекте Балланса
         this.id = generateid();
+
         count++;
     }
 
@@ -40,7 +41,7 @@ public class CashSource implements Decreasable {
 
     public void increaseAvailableCash(long amount) {
         this.availableCash += amount;
-        DriverDao.increaseFreeCash(amount);
+        DriverDao.increaseFreeCashOfBallance(amount);
     }
 
     public String getName() {
