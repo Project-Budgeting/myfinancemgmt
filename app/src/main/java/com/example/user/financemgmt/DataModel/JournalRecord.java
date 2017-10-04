@@ -2,7 +2,10 @@ package com.example.user.financemgmt.DataModel;
 
 import com.example.user.financemgmt.DAO.DriverDao;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 /**
  * Created by Palibin
@@ -32,6 +35,10 @@ public class JournalRecord {
         this.type = type;
     }
 
+    public TypesOfCashObjects getType() {
+        return type;
+    }
+
     public GregorianCalendar getDate() {
         return date;
     }
@@ -39,6 +46,7 @@ public class JournalRecord {
     public static JournalRecord makeRecordInJournal(Object event, long amount,
                                                     String name, String additionalSettings ){
         JournalRecord jr = new JournalRecord(amount, name, additionalSettings);
+       //TODO переписать так, чтобы дата создавалась только в формате Год, месяц, день
         jr.date = new GregorianCalendar();
         switch (event.getClass().getName()) {
             case "CashSource":  jr.type = TypesOfCashObjects.CASH_SOURCE;
@@ -48,5 +56,31 @@ public class JournalRecord {
         DriverDao.insertRecordInJournal(jr);
         return jr;
 
+    }
+
+    //создать пустую Map с ключами-датами за определенный период
+    //TODO проверить, работает ли метод
+    public static HashMap<GregorianCalendar,ArrayList<JournalRecord>> createEmptyMapForPeriod (
+            GregorianCalendar startDate,
+            GregorianCalendar endDate
+    ){
+        GregorianCalendar pointerDate = startDate;
+        HashMap<GregorianCalendar,ArrayList<JournalRecord>> emptyMap = new HashMap<>();
+
+        while (!compareDatesByYMD(pointerDate,endDate)) {
+            emptyMap.put(pointerDate, null);
+            pointerDate.add(Calendar.DAY_OF_MONTH,1);
+        }
+        return emptyMap;
+    }
+
+    //Сравнить две даты по полям Год, Месяц, День меяца.
+    //TODO проверить работоспособность метода
+    public static boolean compareDatesByYMD(GregorianCalendar date1, GregorianCalendar date2){
+        if ((date1.YEAR==date2.YEAR) &
+            (date1.MONTH==date2.MONTH) &
+            (date1.DAY_OF_MONTH==date2.DAY_OF_MONTH))
+            return true;
+        else return false;
     }
 }
