@@ -9,9 +9,7 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp" />
+        android:layout_height="300dp" />
 
 
     <TextView
@@ -19,6 +17,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:paddingTop="20dp"
         android:text="У лукоморья дуб зеленый;
 Златая цепь на дубе том:
 И днем и ночью кот ученый
