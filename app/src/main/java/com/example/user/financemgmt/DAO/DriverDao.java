@@ -2,15 +2,20 @@ package com.example.user.financemgmt.DAO;
 
 import com.example.user.financemgmt.DataModel.CashSource;
 import com.example.user.financemgmt.DataModel.JournalRecord;
+import com.example.user.financemgmt.DataModel.TypesOfCashObjects;
 import com.example.user.financemgmt.TestStorageForDataObjects.Ballance;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 /**
  * Created by Palibin
  * Данный класс отделяет реализацию доступа к данным от функционала.
  * Жду от вас запрос на необходимость
  * TODO: Дописать методы для Expense
+ * TODO: Везде получаю ссылку на приватные поля синглтона и напрямую пишу изменения по ссылке
+ * TODO: проверить работают ли так эти методы
  */
 
 public class DriverDao {
@@ -74,6 +79,11 @@ public class DriverDao {
     public static void insertRecordInJournal(JournalRecord jr){
         journalDao.insertJournalRecordByDate(jr);
 
+    }
+    //Выгружает из журнала записи указанного типа за указанный период
+    public static HashMap<GregorianCalendar, ArrayList<JournalRecord>> getCustomMapFromStorage
+    (GregorianCalendar startDate, GregorianCalendar endDate, TypesOfCashObjects type){
+        return journalDao.getCustomMapFromStorage(startDate, endDate, type);
     }
 
 }
