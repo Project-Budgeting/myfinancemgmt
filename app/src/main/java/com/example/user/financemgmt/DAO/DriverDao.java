@@ -8,6 +8,9 @@ import com.example.user.financemgmt.TestStorageForDataObjects.Ballance;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
+
+import static android.R.attr.name;
 
 /**
  * Created by Palibin
@@ -38,13 +41,16 @@ public class DriverDao {
 
     //Обновить информацию данного источника(кроме поля id)
     public static void updateCashSource(CashSource cs){
-        cashSourceDriver.updateCashSource(cs);
+        cashSourceDriver.setSourceById(cs);
     }
 
     //добавить новый объект CashSource
     public static void addCashSource(CashSource cs){
         cashSourceDriver.insertCashSource(cs);
     }
+
+    public static CashSource getCashSourceById(long id) {
+        return cashSourceDriver.getSourceById(id);}
 
 
     /**********************************************
@@ -85,5 +91,45 @@ public class DriverDao {
     (GregorianCalendar startDate, GregorianCalendar endDate, TypesOfCashObjects type){
         return journalDao.getCustomMapFromStorage(startDate, endDate, type);
     }
+
+    /*Выдает сумму полей amount всех объектов JournalRecord, Отвечающих требованиям заданного
+     временного периода, типа записей и наименования объекта. Если в параметре name передать null,
+     то требования к выборке по названию не предъявляются.
+     Например при name = null: Возвращает сумму все доходов за указанный период или сумму всех затрат
+     При заданном name = зарплата: Возвращает сумму всех пополнений с исчтоника "Зарплата" за
+     указанный период.
+     При заданном name = на еду: Возвращает сумму потраченных средств категории "на еду".
+     TODO как обработать null в параметре type?*/
+    public long getSummOfRecordType
+    (GregorianCalendar startDate,
+     GregorianCalendar endDate,
+     TypesOfCashObjects type,
+     String name) {
+
+        HashMap<GregorianCalendar, ArrayList<JournalRecord>> recordsOfTypeMap =
+                journalDao.getCustomMapFromStorage(startDate, endDate, type);
+        long amountSumm = 0;
+
+        for (Map.Entry<GregorianCalendar, ArrayList<JournalRecord>> entry : recordsOfTypeMap.entrySet()) {
+
+            ArrayList<JournalRecord> typeList = entry.getValue();
+
+            if (typeList != null) {
+                for (JournalRecord jr : typeList) {
+                    if(name!=null) {
+                        if (jr.getName().equals(name)) amountSumm += jr.getAmount();
+                    } else amountSumm += jr.getAmount();
+                }
+            }
+        }
+        return amountSumm;
+    }
+
+   /* TODO внедрим, когда в модели данных внедрим соответствующий функционал
+    //Сумма отложенных средств на выполнение целей в указанный период
+    public long getTargetReservs() {
+        return 0;
+    }
+    */
 
 }

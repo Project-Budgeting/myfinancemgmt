@@ -20,6 +20,7 @@ public class JavaObjectCashSourceDao extends JavaObjectDaoFactory implements Cas
         getStorage().add(cs);
     }
 
+    //TODO Удалить
     @Override
     public int updateCashSource(CashSource cs) {
        int index = getStorage().indexOf(cs);
@@ -34,6 +35,28 @@ public class JavaObjectCashSourceDao extends JavaObjectDaoFactory implements Cas
     public ArrayList<CashSource> fillStorage() {
 
         return  getStorage();
+    }
+
+    @Override
+    public long setSourceById(CashSource cashSource) {
+       ArrayList<CashSource> storage = getStorage();
+        for (CashSource cs: storage) {
+            if (cs.getId()==cashSource.getId()) {
+                cs.setAvailableCash(cashSource.getAvailableCash());
+                return cs.getId();
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    //TODO работать пока не будет, нужно подменить ссылку
+    public CashSource getSourceById(long id) {
+        CashSource cashSource = null;
+        for (CashSource cs: getStorage()) {
+            if (cs.getId()==id) cashSource=cs;
+        }
+        return cashSource;
     }
 
     protected static ArrayList<CashSource> getStorage(){

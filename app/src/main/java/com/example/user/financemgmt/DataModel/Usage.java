@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Usage {
     private String name;
-    private ArrayList<Usage> usages;
+    private ArrayList<Usage> usages; //если not null, то данный объект - категоря расходов
 
     public Usage(String name, ArrayList<Usage> usages) {
         this.name = name;
