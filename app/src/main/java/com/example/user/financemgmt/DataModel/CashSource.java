@@ -18,8 +18,14 @@ public class CashSource implements Decreasable {
     private Usage usage;
     */
 
-    public CashSource() {
+    //Данный конструктор создан для подмены ссылки в геттере.
+    public CashSource(CashSource cs) {
+        this.name = cs.getName();
+        this.availableCash = cs.getAvailableCash();
+        this.id = cs.getId();
     }
+
+
 
     public CashSource(String name, long availableCash) {
         this.name = name;
@@ -72,6 +78,7 @@ public class CashSource implements Decreasable {
     public void decrease(long amount) {
         this.availableCash= this.availableCash - amount;
         DriverDao.decreaseFreeCashOfBallance(amount);
-       //Запись в журнал не создаем, так как запись создаст объект Expense
+        DriverDao.updateCashSource(this);
+        //Запись в журнал не создаем, так как запись создаст объект Expense
     }
 }

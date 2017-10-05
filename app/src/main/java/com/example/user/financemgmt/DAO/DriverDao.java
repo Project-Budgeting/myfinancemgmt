@@ -41,7 +41,7 @@ public class DriverDao {
 
     //Обновить информацию данного источника(кроме поля id)
     public static void updateCashSource(CashSource cs){
-        cashSourceDriver.setSourceById(cs);
+        cashSourceDriver.updateCashSource(cs);
     }
 
     //добавить новый объект CashSource
