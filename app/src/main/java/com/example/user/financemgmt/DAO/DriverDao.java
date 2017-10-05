@@ -1,8 +1,10 @@
 package com.example.user.financemgmt.DAO;
 
 import com.example.user.financemgmt.DataModel.CashSource;
+import com.example.user.financemgmt.DataModel.Decreasable;
 import com.example.user.financemgmt.DataModel.JournalRecord;
 import com.example.user.financemgmt.DataModel.TypesOfCashObjects;
+import com.example.user.financemgmt.DataModel.Usage;
 import com.example.user.financemgmt.TestStorageForDataObjects.Ballance;
 
 import java.util.ArrayList;
@@ -131,5 +133,25 @@ public class DriverDao {
         return 0;
     }
     */
+
+    /****************************************************
+     * Блок кода по работе с хранилищем UsageCategoryStorage
+     *****************************************************/
+   private static CategoryUsageDao categoryUsageDriver = actualFactory.getCategoryUsageDao();
+
+    public static ArrayList<Usage> getCategoryUsageList() {
+        return categoryUsageDriver.getCategoryUsageList();
+    }
+
+    public static void addUsageInList(Usage usage) {
+        categoryUsageDriver.addUsageInList(usage);
+    }
+
+    /****************************************
+     * Остальные методы
+     */
+    public static ArrayList getDecreasableList(){
+        return getCashSourceStorage();
+    }
 
 }
