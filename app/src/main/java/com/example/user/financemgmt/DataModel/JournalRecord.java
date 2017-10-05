@@ -52,6 +52,7 @@ public class JournalRecord {
             case "CashSource":  jr.type = TypesOfCashObjects.CASH_SOURCE;
                                 break;
             case "Usage":       jr.type = TypesOfCashObjects.USAGE;
+                                break;
         }
         DriverDao.insertRecordInJournal(jr);
         return jr;
