@@ -34,8 +34,7 @@ public class Expense {
         DriverDao.decreaseFreeCashOfBallance(cost);
         source.decrease(cost);
     }
-
-    public long getId() {
+public long getId() {
         return id;
     }
 
