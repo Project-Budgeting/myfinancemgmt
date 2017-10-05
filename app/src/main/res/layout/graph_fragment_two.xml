@@ -8,6 +8,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textColor="#FFFFF6DC"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
         android:text="Там чудеса: там леший бродит,
 Русалка на ветвях сидит;
 Там на неведомых дорожках

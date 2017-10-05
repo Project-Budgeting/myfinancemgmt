@@ -13,4 +13,6 @@ public interface CashSourceDao {
 
     public int updateCashSource(CashSource cs);
     public ArrayList<CashSource> fillStorage();
+    long setSourceById(CashSource cs); //возвращает id если удачно, иначе -1
+    CashSource getSourceById (long id); //возвращает источник по id
 }
