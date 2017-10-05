@@ -34,5 +34,10 @@ public class JavaObjectDaoFactory extends FactoryDao {
         return new JavaObjectJournalDao();
     }
 
+    @Override
+    public CategoryUsageDao getCategoryUsageDao() {
+        return new JavaObjectCategoryUsageDao();
+    }
+
 
 }

@@ -20,6 +20,7 @@ public abstract class FactoryDao {
     public abstract CashSourceDao getCashSourceDAO();
     public abstract BallanceDao getBallanceDao();
     public abstract JournalDao getJournalDao();
+    public abstract CategoryUsageDao getCategoryUsageDao();
 
     public static FactoryDao getFactoryDao(int type) {
         switch (type) {
