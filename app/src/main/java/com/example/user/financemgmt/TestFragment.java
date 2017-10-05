@@ -1,5 +1,9 @@
 package com.example.user.financemgmt;
 
+/*
+05.10.2017 Добавлен Butter Knife
+*/
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,22 +15,26 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class TestFragment extends Fragment {
 
+    private Unbinder unbinder; //Butter Knife Refactoring
 
-    //Объявим RecyclerView
-    RecyclerView rvMain;
-    //И его адаптер
-    RecViewAdapt Adapter;
+    @BindView(R.id.rvRecyclerView) //Butter Knife Refactoring
+            RecyclerView rvMain; //Butter Knife Refactoring
 
+    RecViewAdapt Adapter; //Объявление адаптера
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.journal_fragment_recycler, container, false);
+        unbinder = ButterKnife.bind(this, v); //Butter Knife Refactoring
 
-        //Привяжем его к элементу
-        rvMain = (RecyclerView) v.findViewById(R.id.rvRecyclerView);
+        /*rvMain = (RecyclerView) v.findViewById(R.id.rvRecyclerView);*/
         //Создадим адаптер
         Adapter = new RecViewAdapt(getCars());
         //Применим наш адаптер к RecyclerView
@@ -37,10 +45,14 @@ public class TestFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
 
-
-    public ArrayList<Cars> getCars(){
+    public ArrayList<Cars> getCars() {
         ArrayList<Cars> cars = new ArrayList<>();
 
         Cars Ferrari = new Cars();
