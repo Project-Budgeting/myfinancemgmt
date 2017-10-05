@@ -22,10 +22,10 @@ public class RecViewAdapt extends RecyclerView.Adapter<ViewHold> {
         //Получаем элемент набора данных для заполнения
         Cars currentCars = cars.get(i);
         //Заполняем поля viewHolder'а данными из элемента набора данных
-        viewHold.vManufacturer.setText(currentCars.Manufacturer);
-        viewHold.vModel.setText(currentCars.Model);
-        viewHold.vmaxspeed.setText(currentCars.maxspeed);
-        viewHold.vid.setText(currentCars.id);
+        viewHold.manufacturer.setText(currentCars.Manufacturer);
+        viewHold.model.setText(currentCars.Model);
+        viewHold.maxspeed.setText(currentCars.maxspeed);
+        viewHold.id.setText(currentCars.id);
     }
 
     //Этот метод вызывается при создании нового ViewHolder'а
