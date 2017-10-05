@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
     buildToolsVersion '26.0.1'
     defaultConfig {
         applicationId "com.example.user.financemgmt"
@@ -30,6 +31,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:25.3.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
     testCompile 'junit:junit:4.12'
 }
 
