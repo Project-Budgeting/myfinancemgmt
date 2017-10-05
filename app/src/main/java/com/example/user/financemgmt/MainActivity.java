@@ -1,6 +1,7 @@
 package com.example.user.financemgmt;
 /*
 Добавили TabLayaout  вместо PagerTabStrip
+05.10.2017 Добавлен Butter Knife
  */
 
 
