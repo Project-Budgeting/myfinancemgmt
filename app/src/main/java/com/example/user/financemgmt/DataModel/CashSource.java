@@ -56,6 +56,8 @@ public class CashSource implements Decreasable {
         DriverDao.insertRecordInJournal(new JournalRecord(amount, this.name, null, this.id));
         DriverDao.updateCashSource(this);
     }
+
+
     @Override
     public String getName() {
 
