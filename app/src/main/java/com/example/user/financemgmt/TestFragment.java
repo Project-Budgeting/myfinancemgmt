@@ -45,6 +45,12 @@ public class TestFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 
     public ArrayList<Cars> getCars() {
         ArrayList<Cars> cars = new ArrayList<>();
