@@ -39,7 +39,7 @@ public class CashSource implements Decreasable {
         DriverDao.addCashSource(this);
 
     }
-
+// некорректное название методов и нехватает пробелов
     private long generateid(){
     return count+1;
     }
