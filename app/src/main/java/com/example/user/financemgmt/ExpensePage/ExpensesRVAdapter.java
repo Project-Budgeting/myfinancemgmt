@@ -17,6 +17,7 @@ import java.util.ArrayList;
  * Created by PalibinFamily on 05.10.2017.
  */
 
+// В названии не надо указывать RV. Это лишняя информация. Просто ExpensesAdapter
 public class ExpensesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
     private boolean typeTrigger; // если true, то адаптер для decresable. false - для Usage
     public ArrayList<Usage> usageList ;
@@ -55,6 +56,8 @@ public class ExpensesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
         return new ExpenseRVHolder(itemView);
     }
 
+//     Лучше сделать 2 класса ViewHolder - DecreasableViewHolder и UsageViewHolder и реализовать в них метод
+//     bind(Decreasable/Usage). А в методе onBindViewHolder вызывать их в зависимости от typeTrigger 
     @Override
     public void onBindViewHolder(ExpenseRVHolder holder, int position) {
         if(typeTrigger) {
@@ -68,6 +71,7 @@ public class ExpensesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
         }
     }
 
+//     надо возвращать длину соответствующего списка
     @Override
     public int getItemCount() {
         return 0;
