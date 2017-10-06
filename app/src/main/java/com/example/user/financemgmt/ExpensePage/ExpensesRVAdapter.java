@@ -14,13 +14,14 @@ import com.example.user.financemgmt.ViewHold;
 import java.util.ArrayList;
 
 /**
- * Created by PalibinFamily on 05.10.2017.
+ * Created by Palibin
  */
 
 public class ExpensesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
     private boolean typeTrigger; // если true, то адаптер для decresable. false - для Usage
     public ArrayList<Usage> usageList ;
     public ArrayList<Decreasable> decreasableList;
+
 
     public ExpensesRVAdapter(boolean typeTrigger, ArrayList list) {
         this.typeTrigger = typeTrigger;

@@ -1,5 +1,6 @@
 package com.example.user.financemgmt;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import java.util.ArrayList;
 public class RecViewAdapt extends RecyclerView.Adapter<ViewHold> {
     //Здесь мы будем хранить набор наших данных
     private ArrayList<Cars> cars;
+    private final CustomAdapterCallBack listener;
 
-    public RecViewAdapt(ArrayList<Cars> cars1) {
+    public RecViewAdapt(ArrayList<Cars> cars1, Context activity) {
         this.cars = cars1;
+        listener = (CustomAdapterCallBack) activity;
     }
 
     //Этот метод вызывается при прикреплении нового элемента к RecyclerView
@@ -35,13 +38,18 @@ public class RecViewAdapt extends RecyclerView.Adapter<ViewHold> {
         //Создаём новый view при помощи LayoutInflater
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cards, viewGroup, false);
 
-        return new ViewHold(itemView);
+        return new ViewHold(itemView, listener);
     }
 
     //Этот метод возвращает количество элементов списка
     @Override
     public int getItemCount() {
         return cars.size();
+    }
+
+    //добавляем интерфейс.
+    interface CustomAdapterCallBack {
+        void onItemClick(int position);
     }
 }
 

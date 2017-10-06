@@ -24,7 +24,7 @@ public class ExpenseActivity extends AppCompatActivity {
         usageFragment.setFragmentTrigger(false);
         fm.beginTransaction()
           .add(R.id.decreaseFragmentContainer,decreasableFragment)
-          .add(R.id.expenseFragmentContainer,usageFragment)
+          .add(R.id.usageFragmentContainer,usageFragment)
           .commit();
 
     }
