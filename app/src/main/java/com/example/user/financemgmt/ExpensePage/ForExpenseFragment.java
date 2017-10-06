@@ -19,10 +19,11 @@ import com.example.user.financemgmt.R;
 
 public class ForExpenseFragment extends Fragment {
     RecyclerView rvExpense;
-    ExpensesRVAdapter adapter;
+    DecreasableRVAdapter decAdapter;
+    UsagesRVAdapter usegesAdapter;
     private boolean fragmentTrigger;// true - фрагмент Decreasable, false - фрагмент Usage
 
-    public boolean isFragmentTrigger() {
+    public boolean isFragmentTrigged() {
         return fragmentTrigger;
     }
 
@@ -35,17 +36,17 @@ public class ForExpenseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View expenseFragmentView = inflater.inflate(R.layout.for_expense_fragment, container,false);
 
-        RecyclerView rvExpense = (RecyclerView) expenseFragmentView.findViewById(R.id.expenseHorizontalRecycler);
+        rvExpense = (RecyclerView) expenseFragmentView.findViewById(R.id.expenseHorizontalRecycler);
         if (fragmentTrigger) {
-            adapter = new ExpensesRVAdapter(true, DriverDao.getDecreasableList());
-            rvExpense.setAdapter(adapter);
+            decAdapter = new DecreasableRVAdapter(DriverDao.getDecreasableList());
+            rvExpense.setAdapter(decAdapter);
             rvExpense.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
-            adapter = new ExpensesRVAdapter(false, DriverDao.getCategoryUsageList());
-            rvExpense.setAdapter(adapter);
+            usegesAdapter = new UsagesRVAdapter(DriverDao.getCategoryUsageList());
+            rvExpense.setAdapter(usegesAdapter);
             rvExpense.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rvExpense;
     }
 }
