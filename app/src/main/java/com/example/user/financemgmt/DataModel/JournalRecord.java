@@ -97,6 +97,7 @@ public class JournalRecord {
         return emptyMap;
     }
 
+//     Вместо этого метода можно использовать date1.compareTo(date2)
     //Сравнить две даты по полям Год, Месяц, День меяца.
     //TODO проверить работоспособность метода
     public static boolean compareDatesByYMD(GregorianCalendar date1, GregorianCalendar date2){
