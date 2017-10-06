@@ -65,6 +65,13 @@ public class JournalRecord {
         return name;
     }
 
+    /**
+ * Необходимо форматировать код, в идеале в соответствии с Java CodeStyle и Android CodeStyle
+ * https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md
+ * http://www.oracle.com/technetwork/java/codeconvtoc-136057.html -- читать его полностью
+ * не обязательно, но нужно иметь ввиду.
+ * К тому же, можно использовать комбинацию Ctrl + Alt + L для форматирования.
+ */
     public static JournalRecord makeRecordInJournal(Object event, long amount,
                                                     String name, String additionalSettings, long idOfEvent ){
         JournalRecord jr = new JournalRecord(amount, name, additionalSettings, idOfEvent);
@@ -97,6 +104,7 @@ public class JournalRecord {
         return emptyMap;
     }
 
+//     Вместо этого метода можно использовать date1.compareTo(date2)
     //Сравнить две даты по полям Год, Месяц, День меяца.
     //TODO проверить работоспособность метода
     public static boolean compareDatesByYMD(GregorianCalendar date1, GregorianCalendar date2){

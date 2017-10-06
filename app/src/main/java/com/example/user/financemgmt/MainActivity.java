@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     /*private TabLayout tabLayout;
       private ViewPager viewPager;*/
 
-    @BindView(R.id.mainActivityPager) //Butter Knife Refactoring
+//     В каждой строке такой комментарий лишний
+    @BindView(R.id.mainActivityPager) //Butter Knife Refactoring 
             ViewPager viewPager; //Butter Knife Refactoring
     @BindView(R.id.tablayout) //Butter Knife Refactoring
             TabLayout tabLayout; //Butter Knife Refactoring
