@@ -3,6 +3,7 @@ package com.example.user.financemgmt.ExpensePage;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,13 +41,16 @@ public class ForExpenseFragment extends Fragment {
         if (fragmentTrigger) {
             decAdapter = new DecreasableRVAdapter(DriverDao.getDecreasableList());
             rvExpense.setAdapter(decAdapter);
-            rvExpense.setLayoutManager(new LinearLayoutManager(getActivity()));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            rvExpense.setLayoutManager(linearLayoutManager);
         } else {
             usegesAdapter = new UsagesRVAdapter(DriverDao.getCategoryUsageList());
             rvExpense.setAdapter(usegesAdapter);
-            rvExpense.setLayoutManager(new LinearLayoutManager(getActivity()));
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
+            rvExpense.setLayoutManager(gridLayoutManager);
         }
 
-        return rvExpense;
+        return expenseFragmentView;
     }
 }

@@ -8,9 +8,9 @@
         android:paddingRight="20dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"
+        android:layout_gravity="clip_horizontal"
         android:layout_marginBottom="7dp"
-        card_view:cardBackgroundColor="#FFFFF6DC"
+        card_view:cardBackgroundColor="#FFFF6D"
         card_view:cardCornerRadius="4dp">
 
         <TextView
