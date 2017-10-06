@@ -9,4 +9,6 @@ package com.example.user.financemgmt.DataModel;
 
 public interface Decreasable {
     void decrease(long amount);
+    String getName();
+    long getCashAmount();
 }

@@ -20,20 +20,34 @@ public class JavaObjectCashSourceDao extends JavaObjectDaoFactory implements Cas
         getStorage().add(cs);
     }
 
-    @Override
-    public int updateCashSource(CashSource cs) {
-       int index = getStorage().indexOf(cs);
-        if (index!=-1) {
-            getStorage().set(index,cs);
-            return index;
-        }
-        else return -1;
-    }
-
+    //TODO Удалить
     @Override
     public ArrayList<CashSource> fillStorage() {
 
         return  getStorage();
+    }
+
+    @Override
+    public long updateCashSource(CashSource cashSource) {
+       ArrayList<CashSource> storage = getStorage();
+        for (CashSource cs: storage) {
+            if (cs.getId()==cashSource.getId()) {
+                cs.setAvailableCash(cashSource.getCashAmount());
+                cs.setName(cashSource.getName());
+                return cs.getId();
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public CashSource getSourceById(long id) {
+        CashSource cashSource = null;
+        for (CashSource cs: getStorage()) {
+            //Замена ссылки, чтобы не изменять объект напрямую.
+            if (cs.getId()==id) cashSource = new CashSource(cs);
+        }
+        return cashSource;
     }
 
     protected static ArrayList<CashSource> getStorage(){

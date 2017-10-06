@@ -1,49 +1,47 @@
 package com.example.user.financemgmt;
+/*
+Добавили TabLayaout  вместо PagerTabStrip
+05.10.2017 Добавлен Butter Knife
+ */
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.design.widget.TabLayout;
 
-import java.util.ArrayList;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Fragment> pagesList; // Значения страниц viewpager
+    /*private TabLayout tabLayout;
+      private ViewPager viewPager;*/
+
+    @BindView(R.id.mainActivityPager) //Butter Knife Refactoring
+            ViewPager viewPager; //Butter Knife Refactoring
+    @BindView(R.id.tablayout) //Butter Knife Refactoring
+            TabLayout tabLayout; //Butter Knife Refactoring
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pagesList = ContentPages.getContentPages(this).getPagesList();
-        ViewPager mainPager = (ViewPager) findViewById(R.id.mainActivityPager);
-        FragmentManager fm = getSupportFragmentManager();
-        PagerAdapter adapter = new PagerAdapter(fm);
-        mainPager.setAdapter(adapter);
+        ButterKnife.bind(this); //Butter Knife Refactoring
+
+         /*viewPager = (ViewPager) findViewById(R.id.mainActivityPager);*/
+        setupViewPager(viewPager);
+        /*tabLayout = (TabLayout) findViewById(R.id.tablayout);*/
+        tabLayout.setupWithViewPager(viewPager);
+
 
     }
-    private class PagerAdapter extends FragmentStatePagerAdapter {
 
-        public PagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return Integer.toString(position);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return pagesList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return pagesList.size();
-        }
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TestFragment(), "Управление Средствами");
+        adapter.addFragment(new TestFragment2(), "Журнал расходов");
+        viewPager.setAdapter(adapter);
     }
 }

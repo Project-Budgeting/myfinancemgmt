@@ -19,6 +19,8 @@ public abstract class FactoryDao {
     //TODO: написать CashSourceDao Interface
     public abstract CashSourceDao getCashSourceDAO();
     public abstract BallanceDao getBallanceDao();
+    public abstract JournalDao getJournalDao();
+    public abstract CategoryUsageDao getCategoryUsageDao();
 
     public static FactoryDao getFactoryDao(int type) {
         switch (type) {
