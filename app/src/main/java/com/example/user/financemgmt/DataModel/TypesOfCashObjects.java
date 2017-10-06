@@ -5,6 +5,7 @@ package com.example.user.financemgmt.DataModel;
  * Перечисление, созданное для идентификации типа объекта журнала (JournalRecord)
  */
 
+// Должен называться CashObjectType
 public enum TypesOfCashObjects {
     CASH_SOURCE,
     USAGE
