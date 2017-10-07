@@ -39,6 +39,17 @@ public class CashSource implements Decreasable {
         DriverDao.addCashSource(this);
 
     }
+    /**
+     * Конструктор создан для тестирования, чтобы избежать рекурсии. Используется при добавлении
+     * тестовых записей в конструкторе синглтона хранилища.
+     */
+
+    public CashSource(long availableCash, String name){
+        this.name = name;
+        this.availableCash = availableCash;
+        this.id = generateid();
+        count++;
+    }
 
     private long generateid(){
     return count+1;
