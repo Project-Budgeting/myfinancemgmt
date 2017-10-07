@@ -46,6 +46,6 @@ public class ForExpenseFragment extends Fragment {
             rvExpense.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return expenseFragmentView;
     }
 }
