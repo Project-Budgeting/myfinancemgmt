@@ -16,11 +16,11 @@ import java.util.ArrayList;
  */
 
 public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
-    public ArrayList<Usage> usageList ;
+    private UsageCVPresenter presenter;
 
 
-    public UsagesRVAdapter(ArrayList list) {
-        usageList = (ArrayList<Usage>) list; //TODO сделать кнопку "Добавить"
+    public UsagesRVAdapter() {
+       presenter = new UsageCVPresenter(); //TODO сделать кнопку "Добавить"
     }
 
     @Override
@@ -33,13 +33,13 @@ public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
 
     @Override
     public void onBindViewHolder(ExpenseRVHolder holder, int position) {
-            Usage currentUsage = usageList.get(position);
-            holder.itemName.setText(currentUsage.getName());
+            holder.bindPresenter(presenter);
+            holder.itemName.setText(presenter.getItemName(position));
             holder.cashAmount.setText("");
     }
 
     @Override
     public int getItemCount() {
-        return usageList.size();
+        return presenter.getModelSize();
     }
 }

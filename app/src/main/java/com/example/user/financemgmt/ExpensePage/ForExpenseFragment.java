@@ -39,15 +39,16 @@ public class ForExpenseFragment extends Fragment {
 
         rvExpense = (RecyclerView) expenseFragmentView.findViewById(R.id.expenseHorizontalRecycler);
         if (fragmentTrigger) {
-            decAdapter = new DecreasableRVAdapter(DriverDao.getDecreasableList());
+            decAdapter = new DecreasableRVAdapter();
             rvExpense.setAdapter(decAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             rvExpense.setLayoutManager(linearLayoutManager);
         } else {
-            usegesAdapter = new UsagesRVAdapter(DriverDao.getCategoryUsageList());
+            usegesAdapter = new UsagesRVAdapter();
             rvExpense.setAdapter(usegesAdapter);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
+            //TODO как подстроить количество столбцов в гриде к экрану?
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
             rvExpense.setLayoutManager(gridLayoutManager);
         }
 

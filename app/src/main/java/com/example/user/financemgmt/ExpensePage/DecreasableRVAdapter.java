@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.user.financemgmt.DAO.DriverDao;
 import com.example.user.financemgmt.DataModel.Decreasable;
 import com.example.user.financemgmt.DataModel.Usage;
 import com.example.user.financemgmt.R;
@@ -16,11 +17,10 @@ import java.util.ArrayList;
  */
 
 public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
-    public ArrayList<Decreasable> decreasableList ;
+    DecreasableCVPresenter presenter;
 
-
-    public DecreasableRVAdapter(ArrayList list) {
-        decreasableList = (ArrayList<Decreasable>) list; //TODO сделать кнопку "Добавить"
+    public DecreasableRVAdapter() {
+        presenter = new DecreasableCVPresenter(); //TODO сделать кнопку "Добавить"
     }
 
     @Override
@@ -33,13 +33,15 @@ public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> 
 
     @Override
     public void onBindViewHolder(ExpenseRVHolder holder, int position) {
-        Decreasable currentDecreasable = decreasableList.get(position);
-        holder.itemName.setText(currentDecreasable.getName());
-        holder.cashAmount.setText("");
+
+        holder.bindPresenter(presenter);
+       // holder.setClientTrigger(true);
+        holder.itemName.setText(presenter.getItemName(position));
+        holder.cashAmount.setText(Long.toString(presenter.getItemCash(position)));
     }
 
     @Override
     public int getItemCount() {
-        return decreasableList.size();
+        return presenter.getModelSize();
     }
 }
