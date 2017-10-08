@@ -81,6 +81,7 @@ public class JournalRecord {
 
     }
 
+
     //создать пустую Map с ключами-датами за определенный период
     //TODO проверить, работает ли метод
     public static HashMap<GregorianCalendar,ArrayList<JournalRecord>> createEmptyMapForPeriod (

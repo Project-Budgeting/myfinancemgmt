@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FinanceMgmt</string>
+    <string name="choose_date">Выберите дату</string>
+    <string name="ready">Готово</string>
 </resources>
