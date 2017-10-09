@@ -11,28 +11,13 @@ import java.util.ArrayList;
  */
 
 public class DecreasableCVPresenter extends FinanceCVPresenter<Decreasable> {
-    protected ArrayList<Decreasable> model; //Тип данных: Usage или CashSource
-    protected WeakReference<ExpenseCV> view; // Вьюшка, на которую мы подписывамся
-    int selectedItem;
 
 
-    public void bindView (ExpenseCV view) {
-        this.view = new WeakReference<ExpenseCV>(view);
-    }
 
-    public void setModel(ArrayList<Decreasable> model){
-        this.model = model;
-    }
-
-    public void onItemClicked(int position) {
-        /*
-        *TODO: Нужно: сохранить номер выделенного элемента в списке
-        * TODO: отправить информацию на уровень выше
-        * TODO: Отправить команду на выделение вьюхи
-        */
-        selectedItem = position;
-        view.get().selectView();
-
+    @Override
+    public void updateView(int position) {
+        view.get().updateName(getItemName(position));
+        view.get().updateCashAmount(Long.toString(getItemCash(position)));
     }
 
 
@@ -46,5 +31,10 @@ public class DecreasableCVPresenter extends FinanceCVPresenter<Decreasable> {
 
     public int getModelSize() {
         return DriverDao.getDecreasableList().size();
+    }
+
+    @Override
+    public void onBindViewHolder(int position) {
+        updateView(position);
     }
 }

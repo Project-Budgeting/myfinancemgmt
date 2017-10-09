@@ -34,8 +34,8 @@ public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
     @Override
     public void onBindViewHolder(ExpenseRVHolder holder, int position) {
             holder.bindPresenter(presenter);
-            holder.itemName.setText(presenter.getItemName(position));
-            holder.cashAmount.setText("");
+            presenter.onBindViewHolder(position);
+
     }
 
     @Override
