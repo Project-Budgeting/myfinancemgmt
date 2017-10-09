@@ -36,8 +36,8 @@ public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> 
 
         holder.bindPresenter(presenter);
        // holder.setClientTrigger(true);
-        holder.itemName.setText(presenter.getItemName(position));
-        holder.cashAmount.setText(Long.toString(presenter.getItemCash(position)));
+        presenter.onBindViewHolder(position);
+
     }
 
     @Override

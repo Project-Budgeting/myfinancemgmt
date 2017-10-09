@@ -50,5 +50,15 @@ public class ExpenseRVHolder extends RecyclerView.ViewHolder implements View.OnC
     public void selectView() {
     itemView.setCardBackgroundColor(Color.RED);
     }
+
+    @Override
+    public void updateName(String name) {
+        itemName.setText(name);
+    }
+
+    @Override
+    public void updateCashAmount(String cashAmount) {
+
+    }
 }
 
