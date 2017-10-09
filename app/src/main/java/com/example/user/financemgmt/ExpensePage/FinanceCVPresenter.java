@@ -26,19 +26,23 @@ public abstract class FinanceCVPresenter<M> {
 
     public void onItemClicked(int position) {
         /*
-        *TODO: Нужно: сохранить номер выделенного элемента в списке
+        * Нужно: сохранить номер выделенного элемента в списке
         * TODO: отправить информацию на уровень выше
-        * TODO: Отправить команду на выделение вьюхи
+        * Отправить команду на выделение вьюхи
+        * TODO: Сделать выделение одинарным
         */
         selectedItem = position;
         view.get().selectView();
 
     }
 
+    public abstract void updateView();
 
-    public abstract   String getItemName(int position);
+    public abstract String getItemName(int position);
 
     public abstract long getItemCash(int position);
 
     public abstract int getModelSize();
+
+    public abstract void onBindViewHolder(int position);
 }

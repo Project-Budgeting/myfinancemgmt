@@ -25,14 +25,15 @@ public class DecreasableCVPresenter extends FinanceCVPresenter<Decreasable> {
     }
 
     public void onItemClicked(int position) {
-        /*
-        *TODO: Нужно: сохранить номер выделенного элемента в списке
-        * TODO: отправить информацию на уровень выше
-        * TODO: Отправить команду на выделение вьюхи
-        */
         selectedItem = position;
         view.get().selectView();
 
+    }
+
+    @Override
+    public void updateView(int position) {
+        view.updateName(getItemName(position));
+        view.updateCashAmount(Long.toString(getItemCash(position)));
     }
 
 
@@ -46,5 +47,10 @@ public class DecreasableCVPresenter extends FinanceCVPresenter<Decreasable> {
 
     public int getModelSize() {
         return DriverDao.getDecreasableList().size();
+    }
+
+    @Override
+    public void onBindViewHolder(int position) {
+        updateView(position);
     }
 }
