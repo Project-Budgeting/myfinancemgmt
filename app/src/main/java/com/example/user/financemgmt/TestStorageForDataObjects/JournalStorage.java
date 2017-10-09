@@ -21,7 +21,7 @@ public class JournalStorage {
         return this.storageMap;
     }
 
-    private JournalStorage() {
+    public JournalStorage() {
         HashMap<GregorianCalendar, ArrayList<JournalRecord>> hashMap = new HashMap<GregorianCalendar, ArrayList<JournalRecord>>();
         /***************************
          *Инициализация временного хранилища для тестирования
