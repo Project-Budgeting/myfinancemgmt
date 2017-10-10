@@ -48,6 +48,7 @@ public class ForExpenseFragment extends Fragment {
             usegesAdapter = new UsagesRVAdapter(getActivity());
             rvExpense.setAdapter(usegesAdapter);
             //TODO как подстроить количество столбцов в гриде к экрану?
+//            Получить ширину экрана и высчитать сколько влезет, если ширина элемента известна
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
             rvExpense.setLayoutManager(gridLayoutManager);
         }
