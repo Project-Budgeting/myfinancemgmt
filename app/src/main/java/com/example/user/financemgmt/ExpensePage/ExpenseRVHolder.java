@@ -58,7 +58,7 @@ public class ExpenseRVHolder extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public void updateCashAmount(String cashAmount) {
-
+        this.cashAmount.setText(cashAmount);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.user.financemgmt.ExpensePage;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,9 @@ public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> imple
     private UsageCVPresenter presenter;
 
 
-    public UsagesRVAdapter() {
-       presenter = new UsageCVPresenter(this); //TODO сделать кнопку "Добавить"
+    public UsagesRVAdapter(FragmentActivity activity) {
+       presenter = new UsageCVPresenter(this);
+       presenter.bindActivity(activity);//TODO сделать кнопку "Добавить"
     }
 
     @Override

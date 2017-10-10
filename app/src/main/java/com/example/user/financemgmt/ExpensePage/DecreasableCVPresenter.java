@@ -24,9 +24,9 @@ public class DecreasableCVPresenter extends FinanceCVPresenter<Decreasable> {
     public void updateView(int position) {
         view.get().updateName(getItemName(position));
         view.get().updateCashAmount(Long.toString(getItemCash(position)));
-        if (hasSelection){ //Если выделение существует на текущем элементе
-            view.get().changeBG(Color.RED);         //выделить его красным
-        } else view.get().changeBG(R.color.defaultForTest);
+        if (selectionArray[position]){
+            view.get().changeBG(Color.RED);
+        } else view.get().changeBG(Color.YELLOW);
     }
 
 

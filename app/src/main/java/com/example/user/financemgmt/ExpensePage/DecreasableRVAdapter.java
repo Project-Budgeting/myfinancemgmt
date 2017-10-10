@@ -1,5 +1,6 @@
 package com.example.user.financemgmt.ExpensePage;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +20,15 @@ import java.util.ArrayList;
 public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> implements FinanceCVPresenter.changingParentAdapter {
     DecreasableCVPresenter presenter;
 
-    public DecreasableRVAdapter() {
-        presenter = new DecreasableCVPresenter(this); //TODO сделать кнопку "Добавить"
+    public DecreasableRVAdapter(FragmentActivity activity) {
+        presenter = new DecreasableCVPresenter(this);
+        presenter.bindActivity(activity);//TODO сделать кнопку "Добавить"
     }
 
     @Override
     public ExpenseRVHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_for_expense, parent, false);
-
         return new ExpenseRVHolder(itemView);
     }
 

@@ -39,13 +39,13 @@ public class ForExpenseFragment extends Fragment {
 
         rvExpense = (RecyclerView) expenseFragmentView.findViewById(R.id.expenseHorizontalRecycler);
         if (fragmentTrigger) {
-            decAdapter = new DecreasableRVAdapter();
+            decAdapter = new DecreasableRVAdapter(getActivity());
             rvExpense.setAdapter(decAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             rvExpense.setLayoutManager(linearLayoutManager);
         } else {
-            usegesAdapter = new UsagesRVAdapter();
+            usegesAdapter = new UsagesRVAdapter(getActivity());
             rvExpense.setAdapter(usegesAdapter);
             //TODO как подстроить количество столбцов в гриде к экрану?
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);

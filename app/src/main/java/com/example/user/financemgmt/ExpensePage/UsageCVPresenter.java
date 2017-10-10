@@ -19,9 +19,9 @@ public class UsageCVPresenter extends FinanceCVPresenter<Usage> {
     @Override
     public void updateView(int position) {
         view.get().updateName(getItemName(position));
-        if (selectionArray[position]){ //Если выделение существует на текущем элементе
-            view.get().changeBG(Color.RED);         //выделить его красным
-        } else view.get().changeBG(R.color.defaultForTest);
+        if (selectionArray[position]){
+            view.get().changeBG(Color.RED);
+        } else view.get().changeBG(Color.YELLOW);
     }
 
     @Override

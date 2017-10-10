@@ -1,9 +1,11 @@
 package com.example.user.financemgmt.ExpensePage;
 
 import android.graphics.Color;
+import android.support.v4.app.FragmentActivity;
 
 import com.example.user.financemgmt.DAO.DriverDao;
 import com.example.user.financemgmt.DataModel.Decreasable;
+import com.example.user.financemgmt.DataModel.Expense;
 import com.example.user.financemgmt.R;
 
 import java.lang.ref.WeakReference;
@@ -18,15 +20,17 @@ public abstract class FinanceCVPresenter<M> {
     protected WeakReference<ExpenseCV> view; // Вьюшка, на которую мы подписывамся
     protected int selectedItem = -1;    //-1, если не выбран элемент.
     protected int oldPosition;
-    protected boolean hasSelection;
-    protected boolean[] selectionArray= new boolean[model.size()];
+    protected FragmentActivity activity;
+    protected boolean[] selectionArray= new boolean[getModelSize()];
     protected changingParentAdapter listener;
+
+
     public FinanceCVPresenter(changingParentAdapter listener) {
-        //todo переделать
-        for (int i = 0; i<(selectionArray.length-1); i++) selectionArray[i] = false;
         this.listener = listener;
     }
-
+    public void bindActivity(FragmentActivity activity){
+        this.activity = activity;
+    }
     public void bindView (ExpenseCV view) {
         this.view = new WeakReference<ExpenseCV>(view);
     }
@@ -45,6 +49,7 @@ public abstract class FinanceCVPresenter<M> {
         oldPosition = selectedItem;
         selectedItem = position;
         if((selectedItem==oldPosition)&(oldPosition!=-1)) { //если позиция выбрана повторно
+            selectionArray[position] = false;
             listener.refreshItem(position);
             selectedItem = -1;  // отменить выделение
             oldPosition = -1;
@@ -57,11 +62,6 @@ public abstract class FinanceCVPresenter<M> {
                 listener.refreshItem(oldPosition);
             }
         }
-       // if (hasSelection){ //Если выделение существует на текущем элементе
-       // view.get().changeBG(Color.RED);         //выделить его красным
-    //} else view.get().changeBG(R.color.defaultForTest);
-
-
     }
 
     public abstract void updateView(int position);
