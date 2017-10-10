@@ -15,12 +15,12 @@ import java.util.ArrayList;
  * Created by user on 06.10.2017.
  */
 
-public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
+public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> implements FinanceCVPresenter.changingParentAdapter{
     private UsageCVPresenter presenter;
 
 
     public UsagesRVAdapter() {
-       presenter = new UsageCVPresenter(); //TODO сделать кнопку "Добавить"
+       presenter = new UsageCVPresenter(this); //TODO сделать кнопку "Добавить"
     }
 
     @Override
@@ -34,12 +34,17 @@ public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> {
     @Override
     public void onBindViewHolder(ExpenseRVHolder holder, int position) {
             holder.bindPresenter(presenter);
-            holder.itemName.setText(presenter.getItemName(position));
-            holder.cashAmount.setText("");
+            presenter.onBindViewHolder(position);
+
     }
 
     @Override
     public int getItemCount() {
         return presenter.getModelSize();
+    }
+
+    @Override
+    public void refreshItem(int position) {
+        notifyItemChanged(position);
     }
 }

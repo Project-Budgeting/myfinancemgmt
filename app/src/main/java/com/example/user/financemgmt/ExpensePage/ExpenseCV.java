@@ -5,7 +5,7 @@ package com.example.user.financemgmt.ExpensePage;
  */
 
 public interface ExpenseCV {
-    void selectView();
-    void updateName();
-    void updateCashAmount();
+    void changeBG(int color);
+    void updateName(String name);
+    void updateCashAmount(String cashAmount);
 }
