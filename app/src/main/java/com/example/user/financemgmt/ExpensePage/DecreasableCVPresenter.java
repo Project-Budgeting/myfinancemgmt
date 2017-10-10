@@ -13,8 +13,18 @@ import java.util.ArrayList;
  * Created by Palibin
  */
 
-public class DecreasableCVPresenter extends FinanceCVPresenter<Decreasable> {
+/* Как уже говорилось Presenter должен создаваться для Activity или Fragment, а не для каждой
+view адаптера.
+ */
 
+public class DecreasableCVPresenter extends FinanceCVPresenter<Decreasable> {
+/*
+protected ArrayList<Decreasable> model; //Тип данных: Usage или CashSource
+    protected WeakReference<ExpenseCV> view; // Вьюшка, на которую мы подписывамся
+    int selectedItem;
+    Вот этот код был правильный. presenter должен хранить данные, чтобы внутри себя с ними
+    работать, а не каждый раз лезть в DAO
+ */
 
     public DecreasableCVPresenter(changingParentAdapter listener) {
         super(listener);

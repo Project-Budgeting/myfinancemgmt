@@ -18,8 +18,36 @@ import java.util.ArrayList;
  */
 
 public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder> implements FinanceCVPresenter.changingParentAdapter {
+    /*       Создавать презентер в адаптере неправильно.
+    Класс адаптера должен отвечать только за биндинг данных и представления.
+    Презентер должен создаваться для Activity или Fragment'а.
+
+    В onBindViewHolder можно или определить внешний вид элемента списка или лучше в классе
+    ExpenseRVHolder создать метод bind(Decreasable desreasable) и в методе onBindViewHolder
+    адаптера вызывать holder.bind(getItem(position))
+
+    Внутри адаптера должен содержаться список элементов для отображения.
+    Его можно передавать в конструкторе, а так же создать в адаптере метод
+    setItems(List<Decreasable> items), который будет обновлять элементы списка.
+
+    Также в адаптере нужно хранить id (или еще что-то уникальное) выбранного элемента
+    Сделать в адаптере метод setSelectedItem, в который и передавать этот id.
+    Во время bind'а view проверять, соответствует ли id текущего элемента выбранному. Если
+    соответствует, то менять цвет фона.
+
+    Выбор элемента обрабатывать следующим образом. В адаптере создать интерфейс с методом
+    onItemSelected и хранить в адаптере ссылку на объект, имплементирующий этот метод.
+    Во фрагменте этот метод сэмплиментировать и передавать фрагмент в конструктор адаптера.
+    При клике на элемент в адаптере вызывать метод onItemSelected у объекта, переданного
+    в конструктор.
+
+    В самом фрагменте в методе onItemSelected передавать выбранный элемент в presenter и
+    id выбранного элемента в адаптер
+     */
+
     DecreasableCVPresenter presenter;
 
+    // Что обозначает приписка RV и CV у имен классов?
     public DecreasableRVAdapter(FragmentActivity activity) {
         presenter = new DecreasableCVPresenter(this);
         presenter.bindActivity(activity);//TODO сделать кнопку "Добавить"
