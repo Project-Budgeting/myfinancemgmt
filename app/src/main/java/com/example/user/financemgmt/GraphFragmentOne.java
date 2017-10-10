@@ -5,7 +5,6 @@ package com.example.user.financemgmt;
 */
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,20 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import com.example.user.financemgmt.DataModel.TypesOfCashObjects;
+import com.example.user.financemgmt.Presenter.ChartsMagicPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -55,15 +46,10 @@ public class GraphFragmentOne extends Fragment {
     @BindView(R.id.dateFinish)
             Button dataFinish;
 
-    float expensest[] = {1276.5f, 1858.56f, 3450.00f, 19800.25f, 2700.00f, 5780.31f};
-    String category[] = {"Проезд", "Заправка", "Квартплата", "Еда", "Хоз. товары", "Прочие"};
-    int colors[] = {
-            Color.rgb(193, 37, 82), Color.rgb(255, 102, 0), Color.rgb(245, 199, 0),
-            Color.rgb(106, 150, 31), Color.rgb(179, 100, 53), Color.rgb(109, 100, 53)
-    };
+    private final ChartsMagicPresenter presenter = new ChartsMagicPresenter();
 
-    Calendar dataSt = Calendar.getInstance();
-    Calendar dataFin = Calendar.getInstance();
+    GregorianCalendar dataSt = new GregorianCalendar();
+    GregorianCalendar dataFin = new GregorianCalendar();
 
 
     @Nullable
@@ -74,19 +60,21 @@ public class GraphFragmentOne extends Fragment {
         unbinder = ButterKnife.bind(this, v); //Butter Knife Refactoring
 
         // установка начальных даты и времени
-        dataSt.set(Calendar.MONTH,0);
-        dataSt.set(Calendar.DAY_OF_MONTH, 1);
 
-        dataFinish.setText(DateOfString(dataFin));
-        dataStart.setText(DateOfString(dataSt));
+        /*
+        presenter.setDataFin(dataFin); // чуть не забыл про то что мы же должн отправить значение выбора даты в магическую Preentary
+        presenter.setDataSt(dataSt);   // Есть подозрения что иммено из-за того что я не отправлял данный графики не стороились, лошара что тут скажешь
+        */
 
+        dataFinish.setText(DateOfString(presenter.getDataFin())); //а тут мы пишем на кнопках даты старта и конца периода детализации
+        dataStart.setText(DateOfString(presenter.getDataSt()));   // по умолчанию текущий год
 
         dataStart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new DatePickerDialog(getActivity(), dts,  // отображаем диалоговое окно для выбора даты
-                        dataSt.get(Calendar.YEAR),
-                        0,
-                        1)
+                        presenter.getDataSt().get(GregorianCalendar.YEAR),
+                        presenter.getDataSt().get(GregorianCalendar.MONTH),
+                        presenter.getDataSt().get(GregorianCalendar.DAY_OF_MONTH))
                         .show();
             }
         });
@@ -94,66 +82,66 @@ public class GraphFragmentOne extends Fragment {
         dataFinish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new DatePickerDialog(getActivity(), dtf,   // отображаем диалоговое окно для выбора даты
-                        dataFin.get(Calendar.YEAR),
-                        dataFin.get(Calendar.MONTH),
-                        dataFin.get(Calendar.DAY_OF_MONTH))
+                        presenter.getDataFin().get(GregorianCalendar.YEAR),
+                        presenter.getDataFin().get(GregorianCalendar.MONTH),
+                        presenter.getDataFin().get(GregorianCalendar.DAY_OF_MONTH))
                         .show();
             }
         });
 
-        List<BarEntry> barEntries = new ArrayList<>();                          // Заполняем первую диаграмму
-        barEntries.add(new BarEntry(3585f, 0));
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Dates");
-        BarData theData = new BarData(barDataSet);
-        theData.setBarWidth(0.9f);
-
-        List<PieEntry> pieEntries = new ArrayList<>();                          // Заполняем круговые диаграммы
-        for (int i = 0; i < expensest.length; i++) {
-            pieEntries.add(new PieEntry(expensest[i], category[i]));
-        }
-        PieDataSet dataSet = new PieDataSet(pieEntries, "Ваши расходы за месяц");
-        dataSet.setColors(colors);
-        PieData data = new PieData(dataSet);
-
         //Рисуем диаграммы
-        barChart.setData(theData);
-        barChart.animateY(2000);
-        barChart.invalidate();
-
-        cost_Chart.setData(data);
-        cost_Chart.animateY(1500);
-        cost_Chart.invalidate();
-
-        income_Chart.setData(data);
-        income_Chart.animateY(1500);
-        income_Chart.invalidate();
+        BarCgarShow();
+        PieCgarShow();
 
         return v;
     }
 
     DatePickerDialog.OnDateSetListener dts = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dataSt.set(Calendar.YEAR, year);
-            dataSt.set(Calendar.MONTH, monthOfYear);
-            dataSt.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            dataSt.set(GregorianCalendar.YEAR, year);
+            dataSt.set(GregorianCalendar.MONTH, monthOfYear);
+            dataSt.set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
+            presenter.setDataSt(dataSt);
             dataStart.setText(DateOfString(dataSt));
+            BarCgarShow();
+            PieCgarShow();
         }
     };
 
     DatePickerDialog.OnDateSetListener dtf = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dataFin.set(Calendar.YEAR, year);
-            dataFin.set(Calendar.MONTH, monthOfYear);
-            dataFin.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            dataFin.set(GregorianCalendar.YEAR, year);
+            dataFin.set(GregorianCalendar.MONTH, monthOfYear);
+            dataFin.set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
             dataFinish.setText(DateOfString(dataFin));
+            presenter.setDataFin(dataFin);
+            BarCgarShow();
+            PieCgarShow();
         }
 
     };
 
-    private String DateOfString(Calendar c){
+    private void BarCgarShow(){
+        barChart.setData(presenter.GetBarData());
+        barChart.animateY(2000);
+        barChart.groupBars(0.9f, 0.06f, 0.02f);
+        barChart.setFitBars(true);
+        barChart.invalidate();
+    }
+
+    private void PieCgarShow(){
+        cost_Chart.setData(presenter.GetPieData(TypesOfCashObjects.CASH_SOURCE));
+        cost_Chart.animateY(1500);
+        cost_Chart.invalidate();
+        income_Chart.setData(presenter.GetPieData(TypesOfCashObjects.USAGE));
+        income_Chart.animateY(1500);
+        income_Chart.invalidate();
+    }
+
+    private String DateOfString(GregorianCalendar c){
         String arrmounts[] = {"Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"};
-        String day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
         String mounts = arrmounts[c.get(Calendar.MONTH)];
+        String day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
         String year = String.valueOf(c.get(Calendar.YEAR));
         return day + " " + mounts + " " + year;
     }
