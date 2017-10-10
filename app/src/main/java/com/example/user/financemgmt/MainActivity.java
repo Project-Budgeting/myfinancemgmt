@@ -5,16 +5,19 @@ package com.example.user.financemgmt;
  */
 
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 
+import com.example.user.financemgmt.ExpensePage.ExpenseActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecViewAdapt.CustomAdapterCallBack{
 
     /*private TabLayout tabLayout;
       private ViewPager viewPager;*/
@@ -43,5 +46,12 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new TestFragment(), "Управление Средствами");
         adapter.addFragment(new TestFragment2(), "Журнал расходов");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        // пока на любом клике откроется одна и та же активность, ибо некогда
+        Intent intent = new Intent(this, ExpenseActivity.class);
+        startActivity(intent);
     }
 }
