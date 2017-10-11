@@ -13,14 +13,14 @@ import com.example.user.financemgmt.R;
  * Created by Palibin on 05.10.2017.
  */
 
-public class ExpenseRVHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ExpenseCV{
-    private FinanceCVPresenter presenterCV;
-    //public boolean clientTrigger; //true - decreasable, false - usage
+public class ExpenseRVHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public CardView itemView;
     public TextView itemName;
     public TextView cashAmount;
-    public ExpenseRVHolder(View itemView) {
+    private SelectableRecyclerViewItem listener;
+    public ExpenseRVHolder(View itemView, SelectableRecyclerViewItem listener) {
         super(itemView);
+        this.listener = listener;
         itemName = (TextView) itemView.findViewById(R.id.forExpenseCardName);
         cashAmount = (TextView) itemView.findViewById(R.id.forExpenseCardCash);
         this.itemView = (CardView) itemView.findViewById(R.id.forExpenseCard);
@@ -30,35 +30,8 @@ public class ExpenseRVHolder extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public void onClick(View view) {
-
-        presenterCV.bindView(this);
-        presenterCV.onItemClicked(getAdapterPosition());
-    }
-  //  public void setClientTrigger(boolean clientTrigger) {
-   //     this.clientTrigger = clientTrigger;
-   // }
-
-    public void bindPresenter(FinanceCVPresenter presenter) {
-        this.presenterCV = presenter;
-        presenter.bindView(this);
-    }
-    public void unbindPresenter(){
-        presenterCV = null;
+        listener.onItemClicked(getAdapterPosition());
     }
 
-    @Override
-    public void changeBG(int color) {
-    itemView.setCardBackgroundColor(color);
-    }
-
-    @Override
-    public void updateName(String name) {
-        itemName.setText(name);
-    }
-
-    @Override
-    public void updateCashAmount(String cashAmount) {
-        this.cashAmount.setText(cashAmount);
-    }
 }
 
