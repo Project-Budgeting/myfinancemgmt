@@ -24,7 +24,7 @@ public class Ballance {
     }
 
     public static Ballance getSingleBallance(){
-        if (singleBallance==null) new Ballance();
+        if (singleBallance==null) singleBallance = new Ballance();
         return singleBallance;
 
     }

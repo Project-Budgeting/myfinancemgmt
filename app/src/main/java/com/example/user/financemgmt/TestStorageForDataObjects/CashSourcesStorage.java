@@ -21,15 +21,16 @@ public class CashSourcesStorage {
 
     private CashSourcesStorage() {
         ArrayList<CashSource> arrayList = new ArrayList<>();
-        // следующие данные созданы просто для тестирования
-        arrayList.add(new CashSource("Зарплата",50000));
-        arrayList.add(new CashSource("Дивиденды",10000));
         this.storageList = arrayList;
+        // следующие данные созданы просто для тестирования
+        arrayList.add(new CashSource(50000,"Зарплата"));
+        arrayList.add(new CashSource(10000,"Дивиденды"));
     }
 
     public static CashSourcesStorage getCashSourcesStorage(){
         if (singleStorage==null) {
             singleStorage = new CashSourcesStorage();
+
         }
         return singleStorage;
     }

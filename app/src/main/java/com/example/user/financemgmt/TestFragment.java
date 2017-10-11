@@ -36,7 +36,7 @@ public class TestFragment extends Fragment {
 
         /*rvMain = (RecyclerView) v.findViewById(R.id.rvRecyclerView);*/
         //Создадим адаптер
-        Adapter = new RecViewAdapt(getCars());
+        Adapter = new RecViewAdapt(getCars(),getActivity());
         //Применим наш адаптер к RecyclerView
         rvMain.setAdapter(Adapter);
         //И установим LayoutManager

@@ -22,7 +22,7 @@ public class JournalRecord {
     private GregorianCalendar date; //дата наступления события
     private long id; // id Записи в журнале
     private long idOfEvent; // id события
-    private static long count=0;
+    private static long count = 0;
 
     public JournalRecord(long amount, String name, String additionalSettings, long idOfEvent) {
         this.amount = amount;
@@ -41,8 +41,8 @@ public class JournalRecord {
         this.type = type;
     }
 
-    private long generateid(){
-        return count+1;
+    private long generateid() {
+        return count + 1;
     }
 
     public TypesOfCashObjects getType() {
@@ -65,43 +65,55 @@ public class JournalRecord {
         return name;
     }
 
+    public long getAmount(String n) {
+        if (n == this.name) {
+            return amount;
+        } else {
+            return 0;
+        }
+    }
+
     public static JournalRecord makeRecordInJournal(Object event, long amount,
-                                                    String name, String additionalSettings, long idOfEvent ){
+                                                    String name, String additionalSettings, long idOfEvent) {
         JournalRecord jr = new JournalRecord(amount, name, additionalSettings, idOfEvent);
         GregorianCalendar dateOfNow = new GregorianCalendar();
         jr.date = new GregorianCalendar(dateOfNow.get(Calendar.YEAR), dateOfNow.get(Calendar.MONTH), dateOfNow.get(Calendar.DAY_OF_MONTH));
         switch (event.getClass().getName()) {
-            case "CashSource":  jr.type = TypesOfCashObjects.CASH_SOURCE;
-                                break;
-            case "Usage":       jr.type = TypesOfCashObjects.USAGE;
-                                break;
+            case "CashSource":
+                jr.type = TypesOfCashObjects.CASH_SOURCE;
+                break;
+            case "Usage":
+                jr.type = TypesOfCashObjects.USAGE;
+                break;
         }
         DriverDao.insertRecordInJournal(jr);
         return jr;
 
     }
 
+
+
     //создать пустую Map с ключами-датами за определенный период
     //TODO проверить, работает ли метод
-    public static HashMap<GregorianCalendar,ArrayList<JournalRecord>> createEmptyMapForPeriod (
+    public static HashMap<GregorianCalendar, ArrayList<JournalRecord>> createEmptyMapForPeriod(
             GregorianCalendar startDate,
             GregorianCalendar endDate
-    ){
+    ) {
         GregorianCalendar pointerDate = startDate;
-        HashMap<GregorianCalendar,ArrayList<JournalRecord>> emptyMap = new HashMap<>();
+        HashMap<GregorianCalendar, ArrayList<JournalRecord>> emptyMap = new HashMap<>();
 
-        while (!compareDatesByYMD(pointerDate,endDate)) {
+        while (!compareDatesByYMD(pointerDate, endDate)) {
             emptyMap.put(pointerDate, null);
-            pointerDate.add(Calendar.DAY_OF_MONTH,1);
+            pointerDate.add(Calendar.DAY_OF_MONTH, 1);
         }
         return emptyMap;
     }
 
     //Сравнить две даты по полям Год, Месяц, День меяца.
     //TODO проверить работоспособность метода
-    public static boolean compareDatesByYMD(GregorianCalendar date1, GregorianCalendar date2){
-        return ((date1.get(Calendar.YEAR)==date2.get(Calendar.YEAR)) &
-            (date1.get(Calendar.MONTH)==date2.get(Calendar.MONTH)) &
-            (date1.get(Calendar.DAY_OF_MONTH)==date2.get(Calendar.DAY_OF_MONTH)));
+    public static boolean compareDatesByYMD(GregorianCalendar date1, GregorianCalendar date2) {
+        return ((date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR)) &
+                (date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH)) &
+                (date1.get(Calendar.DAY_OF_MONTH) == date2.get(Calendar.DAY_OF_MONTH)));
     }
 }

@@ -32,7 +32,7 @@ public class JavaObjectCashSourceDao extends JavaObjectDaoFactory implements Cas
        ArrayList<CashSource> storage = getStorage();
         for (CashSource cs: storage) {
             if (cs.getId()==cashSource.getId()) {
-                cs.setAvailableCash(cashSource.getAvailableCash());
+                cs.setAvailableCash(cashSource.getCashAmount());
                 cs.setName(cashSource.getName());
                 return cs.getId();
             }

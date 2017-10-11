@@ -10,7 +10,7 @@ public class CashSource implements Decreasable {
     private String name;
     private long availableCash;
     private long id;
-    private static long count=0;
+    private static long count=100;
     /*
     В дальнейшем при написании объектов целей, при достижении цели, она автоматически становится
     объектом типа "Источник средств" с единственно возможной тратой, указанной в данном поле
@@ -21,7 +21,7 @@ public class CashSource implements Decreasable {
     //Данный конструктор создан для подмены ссылки в геттере.
     public CashSource(CashSource cs) {
         this.name = cs.getName();
-        this.availableCash = cs.getAvailableCash();
+        this.availableCash = cs.getCashAmount();
         this.id = cs.getId();
     }
 
@@ -38,6 +38,17 @@ public class CashSource implements Decreasable {
         //Отсылаем изменения в хранилище
         DriverDao.addCashSource(this);
 
+    }
+    /**
+     * Конструктор создан для тестирования, чтобы избежать рекурсии. Используется при добавлении
+     * тестовых записей в конструкторе синглтона хранилища.
+     */
+
+    public CashSource(long availableCash, String name){
+        this.name = name;
+        this.availableCash = availableCash;
+        this.id = generateid();
+        count++;
     }
 
     private long generateid(){
@@ -62,13 +73,16 @@ public class CashSource implements Decreasable {
         DriverDao.insertRecordInJournal(new JournalRecord(amount, this.name, null, this.id));
         DriverDao.updateCashSource(this);
     }
+
+
     @Override
     public String getName() {
 
         return name;
     }
 
-    public long getAvailableCash() {
+    @Override
+    public long getCashAmount() {
         return availableCash;
     }
 
