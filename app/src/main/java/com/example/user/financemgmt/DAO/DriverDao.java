@@ -51,7 +51,7 @@ public class DriverDao {
         cashSourceDriver.insertCashSource(cs);
     }
 
-    public static CashSource getCashSourceById(long id) {
+    public static CashSource getCashSourceById(String id) {
         return cashSourceDriver.getSourceById(id);}
 
 

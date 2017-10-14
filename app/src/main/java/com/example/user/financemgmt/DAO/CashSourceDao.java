@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public interface CashSourceDao {
     public void insertCashSource(CashSource cs);
 
-    public long updateCashSource(CashSource cs);
+    public String updateCashSource(CashSource cs);
     public ArrayList<CashSource> fillStorage();
-    CashSource getSourceById (long id); //возвращает источник по id
+    CashSource getSourceById (String id); //возвращает источник по id
 }

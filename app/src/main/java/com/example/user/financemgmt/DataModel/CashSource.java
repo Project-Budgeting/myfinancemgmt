@@ -9,7 +9,7 @@ import com.example.user.financemgmt.DAO.DriverDao;
 public class CashSource implements Decreasable {
     private String name;
     private long availableCash;
-    private long id;
+    private String id;
     private static long count=100;
     /*
     В дальнейшем при написании объектов целей, при достижении цели, она автоматически становится
@@ -51,11 +51,11 @@ public class CashSource implements Decreasable {
         count++;
     }
 
-    private long generateid(){
-    return count+1;
+    private String generateid(){
+    return Long.toString(count+1);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
