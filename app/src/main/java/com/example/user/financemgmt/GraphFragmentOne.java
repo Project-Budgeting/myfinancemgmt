@@ -20,6 +20,10 @@ import com.example.user.financemgmt.DataModel.TypesOfCashObjects;
 import com.example.user.financemgmt.Presenter.ChartsMagicPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import butterknife.BindView;
@@ -60,11 +64,13 @@ public class GraphFragmentOne extends Fragment {
         unbinder = ButterKnife.bind(this, v); //Butter Knife Refactoring
 
         // установка начальных даты и времени
+        dataFin.getInstance();
+        dataSt.getInstance();
+        dataSt.set(GregorianCalendar.MONTH, 0);
+        dataSt.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
-        /*
         presenter.setDataFin(dataFin); // чуть не забыл про то что мы же должн отправить значение выбора даты в магическую Preentary
         presenter.setDataSt(dataSt);   // Есть подозрения что иммено из-за того что я не отправлял данный графики не стороились, лошара что тут скажешь
-        */
 
         dataFinish.setText(DateOfString(presenter.getDataFin())); //а тут мы пишем на кнопках даты старта и конца периода детализации
         dataStart.setText(DateOfString(presenter.getDataSt()));   // по умолчанию текущий год
@@ -72,9 +78,9 @@ public class GraphFragmentOne extends Fragment {
         dataStart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new DatePickerDialog(getActivity(), dts,  // отображаем диалоговое окно для выбора даты
-                        presenter.getDataSt().get(GregorianCalendar.YEAR),
-                        presenter.getDataSt().get(GregorianCalendar.MONTH),
-                        presenter.getDataSt().get(GregorianCalendar.DAY_OF_MONTH))
+                        dataSt.get(GregorianCalendar.YEAR),
+                        dataSt.get(GregorianCalendar.MONTH),
+                        dataSt.get(GregorianCalendar.DAY_OF_MONTH))
                         .show();
             }
         });
@@ -82,9 +88,9 @@ public class GraphFragmentOne extends Fragment {
         dataFinish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new DatePickerDialog(getActivity(), dtf,   // отображаем диалоговое окно для выбора даты
-                        presenter.getDataFin().get(GregorianCalendar.YEAR),
-                        presenter.getDataFin().get(GregorianCalendar.MONTH),
-                        presenter.getDataFin().get(GregorianCalendar.DAY_OF_MONTH))
+                        dataFin.get(GregorianCalendar.YEAR),
+                        dataFin.get(GregorianCalendar.MONTH),
+                        dataFin.get(GregorianCalendar.DAY_OF_MONTH))
                         .show();
             }
         });
@@ -113,8 +119,8 @@ public class GraphFragmentOne extends Fragment {
             dataFin.set(GregorianCalendar.YEAR, year);
             dataFin.set(GregorianCalendar.MONTH, monthOfYear);
             dataFin.set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
-            dataFinish.setText(DateOfString(dataFin));
             presenter.setDataFin(dataFin);
+            dataFinish.setText(DateOfString(dataFin));
             BarCgarShow();
             PieCgarShow();
         }
@@ -124,17 +130,25 @@ public class GraphFragmentOne extends Fragment {
     private void BarCgarShow(){
         barChart.setData(presenter.GetBarData());
         barChart.animateY(2000);
-        barChart.groupBars(0.9f, 0.06f, 0.02f);
+        barChart.groupBars(0, 0.06f, 0.02f);
         barChart.setFitBars(true);
+        barChart.setScaleYEnabled(false);
+        /*String[] month =new String[] {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setValueFormatter(new BarAxisFormat(month));*/
+
         barChart.invalidate();
+
     }
 
     private void PieCgarShow(){
         cost_Chart.setData(presenter.GetPieData(TypesOfCashObjects.CASH_SOURCE));
         cost_Chart.animateY(1500);
+        cost_Chart.setCenterText("Расходы");
         cost_Chart.invalidate();
         income_Chart.setData(presenter.GetPieData(TypesOfCashObjects.USAGE));
         income_Chart.animateY(1500);
+        income_Chart.setCenterText("Доходы");
         income_Chart.invalidate();
     }
 
@@ -145,6 +159,19 @@ public class GraphFragmentOne extends Fragment {
         String year = String.valueOf(c.get(Calendar.YEAR));
         return day + " " + mounts + " " + year;
     }
+
+    /*public class BarAxisFormat implements IAxisValueFormatter{
+
+        private String[] mValues;
+        public BarAxisFormat(String[] values){
+            this.mValues = values;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mValues[(int)value];
+        }
+    }*/
 
     @Override
     public void onDestroyView() {
