@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class Usage {
-    private int id;
+    private String id;
     private static int count = 100;
     private String name;
     private ArrayList<Usage> usages; //если not null, то данный объект - категоря расходов
@@ -23,12 +23,12 @@ public class Usage {
         count++;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    private int generateid(){
-        return count+1;
+    private String generateid(){
+        return Integer.toString(count+1);
     }
 
     public void setName(String name) {

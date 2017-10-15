@@ -14,7 +14,7 @@ public class Expense {
     private Usage usage; //Назначение траты
     private long cost; //Стоимость траты
     private GregorianCalendar payDate; //Дата совершение платежа
-    private long id;
+    private String id;
     private static long count = 0;
 
     public Expense(Decreasable source, long cost, GregorianCalendar Date , Usage usage) {
@@ -34,11 +34,11 @@ public class Expense {
         DriverDao.decreaseFreeCashOfBallance(cost);
         source.decrease(cost);
     }
-public long getId() {
+public String getId() {
         return id;
     }
 
-    private long generateid(){
-        return count+1;
+    private String generateid(){
+        return Long.toString(count+1);
     }
 }

@@ -20,11 +20,11 @@ public class JournalRecord {
     private String additionalSettings;
     private TypesOfCashObjects type; //тип события
     private GregorianCalendar date; //дата наступления события
-    private long id; // id Записи в журнале
-    private long idOfEvent; // id события
+    private String id; // id Записи в журнале
+    private String idOfEvent; // id события
     private static long count = 0;
 
-    public JournalRecord(long amount, String name, String additionalSettings, long idOfEvent) {
+    public JournalRecord(long amount, String name, String additionalSettings, String idOfEvent) {
         this.amount = amount;
         this.name = name;
         this.additionalSettings = additionalSettings;
@@ -41,15 +41,15 @@ public class JournalRecord {
         this.type = type;
     }
 
-    private long generateid() {
-        return count + 1;
+    private String generateid() {
+        return Long.toString(count + 1);
     }
 
     public TypesOfCashObjects getType() {
         return type;
     }
 
-    public long getIdOfEvent() {
+    public String getIdOfEvent() {
         return idOfEvent;
     }
 
@@ -66,7 +66,7 @@ public class JournalRecord {
     }
 
     public long getAmount(String n) {
-        if (n == this.name) {
+        if (n.equals(this.name)) {
             return amount;
         } else {
             return 0;
@@ -74,7 +74,7 @@ public class JournalRecord {
     }
 
     public static JournalRecord makeRecordInJournal(Object event, long amount,
-                                                    String name, String additionalSettings, long idOfEvent) {
+                                                    String name, String additionalSettings, String idOfEvent) {
         JournalRecord jr = new JournalRecord(amount, name, additionalSettings, idOfEvent);
         GregorianCalendar dateOfNow = new GregorianCalendar();
         jr.date = new GregorianCalendar(dateOfNow.get(Calendar.YEAR), dateOfNow.get(Calendar.MONTH), dateOfNow.get(Calendar.DAY_OF_MONTH));
