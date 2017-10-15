@@ -2,4 +2,8 @@
     <string name="app_name">FinanceMgmt</string>
     <string name="choose_date">Выберите дату</string>
     <string name="ready">Готово</string>
+    <string name="source_for_expense">Источник: </string>
+    <string name="usage_for_expense">. Расход: </string>
+    <string name="enter_text_for_expense">Введите сумму списания:</string>
+
 </resources>

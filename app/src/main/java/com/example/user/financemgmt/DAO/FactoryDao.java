@@ -1,5 +1,6 @@
 package com.example.user.financemgmt.DAO;
 
+import com.example.user.financemgmt.DAO.db.DBDaoFactory;
 import com.example.user.financemgmt.TestStorageForDataObjects.Ballance;
 
 /**
@@ -14,9 +15,10 @@ import com.example.user.financemgmt.TestStorageForDataObjects.Ballance;
 public abstract class FactoryDao {
     //Передаваемый классу параметр для определения исчтоника объектов данных.
     public static final int TEST_FROM_JAVA_ClASS = 1;
+    public static final int FROM_DATA_BASE = 2;
 
     //Список объектов, которые должен уметь обрабатывать наш обработчик.
-    //TODO: написать CashSourceDao Interface
+
     public abstract CashSourceDao getCashSourceDAO();
     public abstract BallanceDao getBallanceDao();
     public abstract JournalDao getJournalDao();
@@ -26,6 +28,8 @@ public abstract class FactoryDao {
         switch (type) {
             case (TEST_FROM_JAVA_ClASS):
                 return new JavaObjectDaoFactory();
+            case (FROM_DATA_BASE):
+                return new DBDaoFactory();
             default:
                 return null;
         }

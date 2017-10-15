@@ -54,6 +54,7 @@ public class ForExpenseFragment extends Fragment implements FinanceFragmentView{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View expenseFragmentView = inflater.inflate(R.layout.for_expense_fragment, container,false);
 
+        //TODO почему подчеркивает красным
         rvExpense = (RecyclerView) expenseFragmentView.findViewById(R.id.expenseHorizontalRecycler);
         if (fragmentTrigger) {
             decAdapter = new DecreasableRVAdapter(decreasableFragmentPresenter.getModel(), this);
@@ -66,7 +67,7 @@ public class ForExpenseFragment extends Fragment implements FinanceFragmentView{
             usegesAdapter = new UsagesRVAdapter(usageFragmentPresenter.getModel(), this);
             rvExpense.setAdapter(usegesAdapter);
             usageFragmentPresenter.onAdapterCreated();
-            //TODO как подстроить количество столбцов в гриде к экрану?
+            //TODO подстроить количество столбцов в гриде к экрану.
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
             rvExpense.setLayoutManager(gridLayoutManager);
         }
@@ -84,7 +85,17 @@ public class ForExpenseFragment extends Fragment implements FinanceFragmentView{
     //какой то нечеловеческий способ по моему
         if (fragmentTrigger) {
             ((DecreasableRVAdapter)rvExpense.getAdapter()).setSelections(old, selected);
-        } else ((UsagesRVAdapter)rvExpense.getAdapter()).setSelections(old, selected);
+            ((ExpenseActivity) getActivity()).getPresenter().onSourceSelected(selected);
+        } else {
+            ((UsagesRVAdapter)rvExpense.getAdapter()).setSelections(old, selected);
+            ((ExpenseActivity) getActivity()).getPresenter().onUsageSelected(selected);
+        }
+    }
+
+    //отмена выделенных item по команде activity;
+    public void unselectPresenters(){
+        if (usageFragmentPresenter!=null) usageFragmentPresenter.onItemSelected(-1);
+        if (decreasableFragmentPresenter!=null) decreasableFragmentPresenter.onItemSelected(-1);
     }
 
     @Override

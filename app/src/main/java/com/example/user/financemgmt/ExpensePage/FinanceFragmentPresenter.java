@@ -44,6 +44,14 @@ public abstract class FinanceFragmentPresenter<M> {
                 view.get().updateCardView(oldSelectedPosition);
 
             }
+            //для отмены всех выделений по команде активити
+                else
+                    if (position==-1) {
+                    view.get().updateCardView(this.selectedPosition);
+                    this.oldSelectedPosition = -1;
+                    this.selectedPosition = -1;
+                    view.get().updateSelections(this.oldSelectedPosition, this.selectedPosition);
+        }
     }
     public ArrayList<M> getDataList() {
         return model;
