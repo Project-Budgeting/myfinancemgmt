@@ -21,40 +21,43 @@ import com.example.user.financemgmt.Presenter.ChartsMagicPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.github.mikephil.charting.components.Legend.LegendPosition.RIGHT_OF_CHART_CENTER;
+
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class GraphFragmentOne extends Fragment {
 
     private Unbinder unbinder;          //Butter Knife Refactoring
-
     @BindView(R.id.barchart)            //Butter Knife Refactoring
             BarChart barChart;
-
     @BindView(R.id.cost_piechart)
-            PieChart cost_Chart;
-
+    PieChart cost_Chart;
     @BindView(R.id.income_piechart)
-            PieChart income_Chart;
-
+    PieChart income_Chart;
     @BindView(R.id.dateStart)
-            Button dataStart;
-
+    Button dataStart;
     @BindView(R.id.dateFinish)
-            Button dataFinish;
+    Button dataFinish;
 
     private final ChartsMagicPresenter presenter = new ChartsMagicPresenter();
-
     GregorianCalendar dataSt = new GregorianCalendar();
     GregorianCalendar dataFin = new GregorianCalendar();
-
 
     @Nullable
     @Override
@@ -62,16 +65,13 @@ public class GraphFragmentOne extends Fragment {
         View v = inflater.inflate(R.layout.chart_scroll, container, false);
 
         unbinder = ButterKnife.bind(this, v); //Butter Knife Refactoring
-
         // установка начальных даты и времени
         dataFin.getInstance();
         dataSt.getInstance();
         dataSt.set(GregorianCalendar.MONTH, 0);
         dataSt.set(GregorianCalendar.DAY_OF_MONTH, 1);
-
         presenter.setDataFin(dataFin); // чуть не забыл про то что мы же должн отправить значение выбора даты в магическую Preentary
         presenter.setDataSt(dataSt);   // Есть подозрения что иммено из-за того что я не отправлял данный графики не стороились, лошара что тут скажешь
-
         dataFinish.setText(DateOfString(presenter.getDataFin())); //а тут мы пишем на кнопках даты старта и конца периода детализации
         dataStart.setText(DateOfString(presenter.getDataSt()));   // по умолчанию текущий год
 
@@ -94,11 +94,9 @@ public class GraphFragmentOne extends Fragment {
                         .show();
             }
         });
-
         //Рисуем диаграммы
         BarCgarShow();
         PieCgarShow();
-
         return v;
     }
 
@@ -127,51 +125,93 @@ public class GraphFragmentOne extends Fragment {
 
     };
 
-    private void BarCgarShow(){
+    private void BarCgarShow() {
         barChart.setData(presenter.GetBarData());
         barChart.animateY(2000);
-        barChart.groupBars(0, 0.06f, 0.02f);
+        barChart.groupBars(-0.5f, 0.24f, 0.08f);
         barChart.setFitBars(true);
         barChart.setScaleYEnabled(false);
-        /*String[] month =new String[] {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setValueFormatter(new BarAxisFormat(month));*/
-
+        Legend legend_bar = barChart.getLegend();
+        legend_bar.setForm(Legend.LegendForm.CIRCLE);
+        String[] xValues = presenter.getCount();
+        XAxis barXAxis = barChart.getXAxis();
+        barXAxis.setValueFormatter(new BarValueFormated(xValues));
+        barXAxis.setGranularity(1);
+        YAxis barYAxis = barChart.getAxisLeft();
+        barYAxis.setAxisMinimum(0);
+        barChart.getAxisRight().setEnabled(false);
         barChart.invalidate();
-
     }
 
-    private void PieCgarShow(){
-        cost_Chart.setData(presenter.GetPieData(TypesOfCashObjects.CASH_SOURCE));
+    private class BarValueFormated implements IAxisValueFormatter {
+        private String[] mValue;
+
+        public BarValueFormated(String[] values) {
+            this.mValue = values;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mValue[(int) value];
+        }
+    }
+
+    private void PieCgarShow() {
+        cost_Chart.setData(presenter.GetPieData(TypesOfCashObjects.USAGE));
         cost_Chart.animateY(1500);
         cost_Chart.setCenterText("Расходы");
         cost_Chart.invalidate();
-        income_Chart.setData(presenter.GetPieData(TypesOfCashObjects.USAGE));
+        Legend legend_cost = cost_Chart.getLegend();
+        legend_cost.setForm(Legend.LegendForm.CIRCLE);
+        cost_Chart.notifyDataSetChanged();
+        cost_Chart.setNoDataText("За выбраный период нет данных");
+        cost_Chart.setUsePercentValues(true);
+        cost_Chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                PieEntry pieEntry = (PieEntry) e;
+                cost_Chart.setCenterText(pieEntry.getLabel() + "\n" + pieEntry.getValue());
+            }
+
+            @Override
+            public void onNothingSelected() {
+                cost_Chart.setCenterText("Расходы");
+            }
+        });
+
+        income_Chart.setData(presenter.GetPieData(TypesOfCashObjects.CASH_SOURCE));
         income_Chart.animateY(1500);
         income_Chart.setCenterText("Доходы");
-        income_Chart.invalidate();
+        Legend legend_income = income_Chart.getLegend();
+        legend_income.setForm(Legend.LegendForm.CIRCLE);
+        income_Chart.notifyDataSetChanged();
+        income_Chart.setNoDataText("За выбраный период нет данных");
+        income_Chart.setUsePercentValues(true);
+        income_Chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                PieEntry pieEntry = (PieEntry) e;
+                income_Chart.setCenterText(pieEntry.getLabel() + "\n" + pieEntry.getValue());
+            }
+
+            @Override
+            public void onNothingSelected() {
+                income_Chart.setCenterText("Доходы");
+            }
+        });
     }
 
-    private String DateOfString(GregorianCalendar c){
+    // private void   interface OnChartValueSelectedListener {
+    // }
+
+
+    private String DateOfString(GregorianCalendar c) {
         String arrmounts[] = {"Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"};
         String mounts = arrmounts[c.get(Calendar.MONTH)];
         String day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
         String year = String.valueOf(c.get(Calendar.YEAR));
         return day + " " + mounts + " " + year;
     }
-
-    /*public class BarAxisFormat implements IAxisValueFormatter{
-
-        private String[] mValues;
-        public BarAxisFormat(String[] values){
-            this.mValues = values;
-        }
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            return mValues[(int)value];
-        }
-    }*/
 
     @Override
     public void onDestroyView() {
