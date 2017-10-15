@@ -1,5 +1,7 @@
 package com.example.user.financemgmt.DataModel;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -11,9 +13,15 @@ import java.util.ArrayList;
  */
 
 public class Usage {
+    @SerializedName("id")
     private String id;
     private static int count = 100;
+    @SerializedName("name")
     private String name;
+   //Поле, созданное для тестирования получения из баз данных
+    @SerializedName("usagesIds")
+    private String[] usagesIds;
+
     private ArrayList<Usage> usages; //если not null, то данный объект - категоря расходов
 
     public Usage(String name, ArrayList<Usage> usages) {
