@@ -57,14 +57,14 @@ public class ForExpenseFragment extends Fragment implements FinanceFragmentView{
         //TODO почему подчеркивает красным
         rvExpense = (RecyclerView) expenseFragmentView.findViewById(R.id.expenseHorizontalRecycler);
         if (fragmentTrigger) {
-            decAdapter = new DecreasableRVAdapter(decreasableFragmentPresenter.getModel(), this);
+            decAdapter = new DecreasableRVAdapter(decreasableFragmentPresenter.getModel(), this, getContext());
             rvExpense.setAdapter(decAdapter);
             decreasableFragmentPresenter.onAdapterCreated();
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             rvExpense.setLayoutManager(linearLayoutManager);
         } else {
-            usegesAdapter = new UsagesRVAdapter(usageFragmentPresenter.getModel(), this);
+            usegesAdapter = new UsagesRVAdapter(usageFragmentPresenter.getModel(), this, getContext());
             rvExpense.setAdapter(usegesAdapter);
             usageFragmentPresenter.onAdapterCreated();
             //TODO подстроить количество столбцов в гриде к экрану.

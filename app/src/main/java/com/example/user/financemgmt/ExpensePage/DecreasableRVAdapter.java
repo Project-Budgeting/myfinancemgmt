@@ -1,5 +1,6 @@
 package com.example.user.financemgmt.ExpensePage;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -24,10 +25,12 @@ public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder>
     private int selectedPosition = -1;
     private int oldSelectedPosition = -1;
     private FinanceFragmentView listener;
+    private Context context;
 
-    public DecreasableRVAdapter(ArrayList<Decreasable> decreasableArrayList, FinanceFragmentView listener) {
+    public DecreasableRVAdapter(ArrayList<Decreasable> decreasableArrayList, FinanceFragmentView listener, Context context) {
         this.dataList = decreasableArrayList;
         this.listener = listener;
+        this.context = context;
     }
 
     @Override
@@ -42,12 +45,12 @@ public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder>
         holder.itemName.setText(dataList.get(position).getName());
         holder.cashAmount.setText(Long.toString(dataList.get(position).getCashAmount()));
         if ((oldSelectedPosition != selectedPosition) &(position==selectedPosition)) {
-            holder.itemView.setCardBackgroundColor(Color.RED);
+            holder.itemView.setCardBackgroundColor(context.getResources().getColor(R.color.markedcolor));
         }
         if ((position == oldSelectedPosition & oldSelectedPosition == selectedPosition) |
             ((oldSelectedPosition == position)& (selectedPosition != position) |
              (selectedPosition ==-1 & oldSelectedPosition == -1))) {
-            holder.itemView.setCardBackgroundColor(Color.YELLOW);
+            holder.itemView.setCardBackgroundColor(context.getResources().getColor(R.color.cardsColor));
         }
 
     }

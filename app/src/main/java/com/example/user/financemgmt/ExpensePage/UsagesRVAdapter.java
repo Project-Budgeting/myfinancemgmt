@@ -1,5 +1,6 @@
 package com.example.user.financemgmt.ExpensePage;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -23,10 +24,12 @@ public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder>
     private int selectedPosition = -1;
     private int oldSelectedPosition = -1;
     private FinanceFragmentView listener;
+    private Context context;
 
-    public UsagesRVAdapter(ArrayList<Usage> usageArrayList, FinanceFragmentView listener) {
+    public UsagesRVAdapter(ArrayList<Usage> usageArrayList, FinanceFragmentView listener, Context context) {
         this.dataList = usageArrayList;
         this.listener = listener;
+        this.context = context;
     }
 
     @Override
@@ -40,12 +43,12 @@ public class UsagesRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder>
     public void onBindViewHolder(ExpenseRVHolder holder, int position) {
         holder.itemName.setText(dataList.get(position).getName());
         if ((oldSelectedPosition != selectedPosition) & (position == selectedPosition)) {
-            holder.itemView.setCardBackgroundColor(Color.RED);
+            holder.itemView.setCardBackgroundColor(context.getResources().getColor(R.color.markedcolor));
         }
         if ((position == oldSelectedPosition & oldSelectedPosition == selectedPosition) |
                 ((oldSelectedPosition == position) & (selectedPosition != position) |
                         (selectedPosition == -1 & oldSelectedPosition == -1))) {
-            holder.itemView.setCardBackgroundColor(Color.YELLOW);
+            holder.itemView.setCardBackgroundColor(context.getResources().getColor(R.color.cardsColor));
         }
 
     }

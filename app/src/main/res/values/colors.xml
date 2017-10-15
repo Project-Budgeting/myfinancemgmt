@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffca00</color>
-    <color name="colorPrimaryDark">#160773</color>
+    <color name="colorPrimary">#8AC18D</color>
+    <color name="colorPrimaryDark">#2D7D32</color>
     <color name="background">#f1efe7</color>
-    <color name="colorAccent">#ffca00</color>
+    <color name="colorAccent">#729174</color>
     <color name="defaultForTest">#ffe273</color>
-    <color name="cardsColor">#ffe273</color>
+    <color name="cardsColor">#BDE0BF</color>
+    <color name="markedcolor">#729174</color>
 </resources>
