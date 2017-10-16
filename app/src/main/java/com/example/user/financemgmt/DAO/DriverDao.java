@@ -27,7 +27,7 @@ public class DriverDao {
     /*Заменив значение TEST_FROM_JAVA_ClASS на другое, мы переключим работу драйвера на
     совершенно другой источник, но методы продолжат выполняться без изменений.
     */
-    private static FactoryDao actualFactory = FactoryDao.getFactoryDao(FactoryDao.TEST_FROM_JAVA_ClASS);
+    private static FactoryDao actualFactory = FactoryDao.getFactoryDao(FactoryDao.FROM_DATA_BASE);
 
 
     /**********************************************

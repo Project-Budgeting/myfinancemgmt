@@ -22,7 +22,7 @@ import retrofit2.http.Headers;
 
 public class DBDaoFactory extends FactoryDao {
     public static final String BASE_URL = "https://android-cources.simbirsoft1.com/api/";
-    protected CategoryUsageDao restService;
+    protected UsageDBInterface restService;
 
     protected Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(this.BASE_URL)
@@ -39,7 +39,7 @@ public class DBDaoFactory extends FactoryDao {
                     .build();
     }
 
-    private CategoryUsageDao getRestService(){
+    private UsageDBInterface getRestService(){
         if (restService==null) retrofit.create(CategoryUsageDao.class);
         return restService;
     }
