@@ -3,6 +3,7 @@ package com.example.user.financemgmt.ExpensePage;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,12 +46,12 @@ public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder>
         holder.itemName.setText(dataList.get(position).getName());
         holder.cashAmount.setText(Long.toString(dataList.get(position).getCashAmount()));
         if ((oldSelectedPosition != selectedPosition) &(position==selectedPosition)) {
-            holder.itemView.setCardBackgroundColor(context.getResources().getColor(R.color.markedcolor));
+            holder.itemView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.markedcolor));
         }
         if ((position == oldSelectedPosition & oldSelectedPosition == selectedPosition) |
             ((oldSelectedPosition == position)& (selectedPosition != position) |
              (selectedPosition ==-1 & oldSelectedPosition == -1))) {
-            holder.itemView.setCardBackgroundColor(context.getResources().getColor(R.color.cardsColor));
+            holder.itemView.setCardBackgroundColor(ContextCompat.getColor(context,R.color.cardsColor));
         }
 
     }
@@ -65,6 +66,7 @@ public class DecreasableRVAdapter extends RecyclerView.Adapter<ExpenseRVHolder>
         this.oldSelectedPosition = oldSelectedPosition;
         this.selectedPosition = selectedPosition;
     }
+
 
     @Override
     public void onItemClicked(int position) {

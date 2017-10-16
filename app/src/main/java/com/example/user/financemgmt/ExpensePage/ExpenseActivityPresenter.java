@@ -38,7 +38,7 @@ public class ExpenseActivityPresenter {
         else this.usage = null;
         if (isReadyToMakeExpense()) {
             view.get().showExpenseDialog(
-                    usage.getName(),
+                    source.getName(),
                     usage.getName(),
                     this
             );

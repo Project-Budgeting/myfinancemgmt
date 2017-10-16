@@ -46,7 +46,8 @@ public class ForExpenseFragment extends Fragment implements FinanceFragmentView{
         } else {
             usageFragmentPresenter = UsageFragmentPresenter.getInstance();
             usageFragmentPresenter.bindView(this);
-        }
+          }
+
     }
 
     @Nullable
@@ -63,6 +64,7 @@ public class ForExpenseFragment extends Fragment implements FinanceFragmentView{
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             rvExpense.setLayoutManager(linearLayoutManager);
+            decreasableFragmentPresenter.onItemSelected(-1);
         } else {
             usegesAdapter = new UsagesRVAdapter(usageFragmentPresenter.getModel(), this, getContext());
             rvExpense.setAdapter(usegesAdapter);
@@ -70,6 +72,7 @@ public class ForExpenseFragment extends Fragment implements FinanceFragmentView{
             //TODO подстроить количество столбцов в гриде к экрану.
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
             rvExpense.setLayoutManager(gridLayoutManager);
+            usageFragmentPresenter.onItemSelected(-1);
         }
 
         return expenseFragmentView;
