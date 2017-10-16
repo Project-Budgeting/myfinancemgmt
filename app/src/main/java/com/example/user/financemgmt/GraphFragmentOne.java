@@ -133,6 +133,7 @@ public class GraphFragmentOne extends Fragment {
         barChart.setScaleYEnabled(false);
         Legend legend_bar = barChart.getLegend();
         legend_bar.setForm(Legend.LegendForm.CIRCLE);
+
         String[] xValues = presenter.getCount();
         XAxis barXAxis = barChart.getXAxis();
         barXAxis.setValueFormatter(new BarValueFormated(xValues));
