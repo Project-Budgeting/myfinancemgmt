@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -62,6 +63,7 @@ public class ChartsMagicPresenter {
         float x = 0;                                                    //ось Х уебищная
         // сама логика отбора данных за необходимый период
         toDay.set(dataSt.get(GregorianCalendar.YEAR), dataSt.get(GregorianCalendar.MONTH), dataSt.get(GregorianCalendar.DAY_OF_MONTH));
+        dataFin.add(GregorianCalendar.DAY_OF_MONTH, 1);
         while (toDay.compareTo(dataFin) <= 0) {
             year = toDay.get(GregorianCalendar.YEAR);
             mount = toDay.get(GregorianCalendar.MONTH);
@@ -70,10 +72,9 @@ public class ChartsMagicPresenter {
                 jouRL = DriverDao.getDataForDay(new GregorianCalendar(year, mount, day));
                 for (int i = 0; i < jouRL.size(); i++) {                                      // ползем по массиву JournalRecord
                     jouR = jouRL.get(i);
-                    if (jouR.getType() == TypesOfCashObjects.USAGE) {
+                    if (jouR.getAdditionalSettings() != null) {
                         costs = costs + jouR.getAmount();
-                    }
-                    if (jouR.getType() == TypesOfCashObjects.CASH_SOURCE) {
+                    } else {
                         income = income + jouR.getAmount();
                     }
                 }
@@ -144,7 +145,7 @@ public class ChartsMagicPresenter {
         return listX;
     }
 
-    public PieData GetPieData(TypesOfCashObjects type) {// магия для круговых диаграмм
+    public PieData GetPieData(boolean bool) {// магия для круговых диаграмм
         List<PieEntry> pieEntries = new ArrayList<>();
         ArrayList<Long> expensest = new ArrayList<>();
         ArrayList<String> category = new ArrayList<>();
@@ -165,13 +166,25 @@ public class ChartsMagicPresenter {
                 for (int i = 0; i < jouRL.size(); i++) {
                     jouR = jouRL.get(i);
 
-                    if (jouR.getType() == type) {
-                        if (category.contains(jouR.getName())) {
-                            money = expensest.get(category.indexOf(jouR.getName())) + jouR.getAmount();
-                            expensest.set(category.indexOf(jouR.getName()), money);
-                        } else {
-                            category.add(jouR.getName());
-                            expensest.add(category.indexOf(jouR.getName()), jouR.getAmount());
+                    if (bool) {
+                        if (jouR.getAdditionalSettings() == null) {
+                            if (category.contains(jouR.getName())) {
+                                money = expensest.get(category.indexOf(jouR.getName())) + jouR.getAmount();
+                                expensest.set(category.indexOf(jouR.getName()), money);
+                            } else {
+                                category.add(jouR.getName());
+                                expensest.add(category.indexOf(jouR.getName()), jouR.getAmount());
+                            }
+                        }
+                    } else {
+                        if (jouR.getAdditionalSettings() != null) {
+                            if (category.contains(jouR.getName())) {
+                                money = expensest.get(category.indexOf(jouR.getName())) + jouR.getAmount();
+                                expensest.set(category.indexOf(jouR.getName()), money);
+                            } else {
+                                category.add(jouR.getName());
+                                expensest.add(category.indexOf(jouR.getName()), jouR.getAmount());
+                            }
                         }
                     }
                 }

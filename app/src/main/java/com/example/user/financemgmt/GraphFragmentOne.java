@@ -158,7 +158,7 @@ public class GraphFragmentOne extends Fragment {
     }
 
     private void PieCgarShow() {
-        cost_Chart.setData(presenter.GetPieData(TypesOfCashObjects.USAGE));
+        cost_Chart.setData(presenter.GetPieData(false));
         cost_Chart.animateY(1500);
         cost_Chart.setCenterText("Расходы");
         cost_Chart.invalidate();
@@ -180,7 +180,7 @@ public class GraphFragmentOne extends Fragment {
             }
         });
 
-        income_Chart.setData(presenter.GetPieData(TypesOfCashObjects.CASH_SOURCE));
+        income_Chart.setData(presenter.GetPieData(true));
         income_Chart.animateY(1500);
         income_Chart.setCenterText("Доходы");
         Legend legend_income = income_Chart.getLegend();

@@ -53,6 +53,8 @@ public class JournalRecord {
         return idOfEvent;
     }
 
+    public String getAdditionalSettings(){return additionalSettings;}
+
     public GregorianCalendar getDate() {
         return date;
     }
