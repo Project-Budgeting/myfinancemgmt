@@ -94,6 +94,11 @@ public class DriverDao {
         return journalDao.getCustomMapFromStorage(startDate, endDate, type);
     }
 
+    // Выгружает из журнала записи за указаный день
+    public static ArrayList<JournalRecord> getDataForDay(GregorianCalendar date) {
+        return journalDao.getDataForDay(date);
+    }
+
     /*Выдает сумму полей amount всех объектов JournalRecord, Отвечающих требованиям заданного
      временного периода, типа записей и наименования объекта. Если в параметре name передать null,
      то требования к выборке по названию не предъявляются.

@@ -61,6 +61,16 @@ public class JavaObjectJournalDao extends JavaObjectDaoFactory implements Journa
         return customMap;
     }
 
+    @Override
+    public ArrayList<JournalRecord> getDataForDay (GregorianCalendar date){
+        HashMap<GregorianCalendar,ArrayList<JournalRecord>>  customJS = getStorageMap();
+        if (customJS.get(date) != null){
+            return customJS.get(date);
+        }else{
+            return null;
+        }
+    }
+
     private static HashMap<GregorianCalendar,ArrayList<JournalRecord>> getStorageMap() {
         return JournalStorage.getJournalStorage().getStorageMap();
     }

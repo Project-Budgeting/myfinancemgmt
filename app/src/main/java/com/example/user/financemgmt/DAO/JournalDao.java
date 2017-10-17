@@ -20,4 +20,7 @@ public interface JournalDao {
              GregorianCalendar endDate,
              TypesOfCashObjects type);
 
+    ArrayList<JournalRecord> getDataForDay
+            (GregorianCalendar date);
+
 }

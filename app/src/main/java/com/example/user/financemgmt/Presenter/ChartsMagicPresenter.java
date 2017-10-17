@@ -1,8 +1,8 @@
 package com.example.user.financemgmt.Presenter;
 
+import com.example.user.financemgmt.DAO.DriverDao;
 import com.example.user.financemgmt.DataModel.JournalRecord;
 import com.example.user.financemgmt.DataModel.TypesOfCashObjects;
-import com.example.user.financemgmt.TestStorageForDataObjects.JournalStorage;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -10,11 +10,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 
 import static android.graphics.Color.BLUE;
@@ -26,10 +23,9 @@ import static android.graphics.Color.RED;
  */
 
 public class ChartsMagicPresenter {
-    private final JournalStorage repositories = new JournalStorage();
+    //private final DriverDao repositories = new DriverDao();
     private GregorianCalendar dataSt = new GregorianCalendar(); // начальная дата для постранения графиков
     private GregorianCalendar dataFin = new GregorianCalendar(); // конечная дата для построения графиков
-    private HashMap<GregorianCalendar, ArrayList<JournalRecord>> jouSt = repositories.getStorageMap();
     private ArrayList<JournalRecord> jouRL;
     private JournalRecord jouR;
     int size = 0;
@@ -50,26 +46,11 @@ public class ChartsMagicPresenter {
         return dataFin;
     }
 
-    private int daysNextMount(int m) {                  // определяем количество дней в месяце
-        int d[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if (m != 11) {
-            return d[m];
-        } else {
-            return d[0];
-        }
-    }
-
     public BarData GetBarData() {                                       // Магия построения LinerCharts
         ArrayList<BarEntry> barEntriesCosts = new ArrayList<>();        // массив данных для записи расходов
         ArrayList<BarEntry> barEntriesIncome = new ArrayList<>();        // массив данных для записи доходов
         GregorianCalendar toDay = new GregorianCalendar();
-        //boolean mount2 = dataSt.get(Calendar.YEAR) == dataFin.get(Calendar.YEAR) && (dataFin.get(GregorianCalendar.MONTH) - dataSt.get(GregorianCalendar.MONTH) < 2);
-        //int dayStart = dataSt.get(GregorianCalendar.DAY_OF_MONTH);
-        //int dayFinish;
-        //int mounthStart = dataSt.get(GregorianCalendar.MONTH);
         int mount;
-        //int yearStart = dataSt.get(GregorianCalendar.YEAR);
-        //int yearFinish = dataFin.get(GregorianCalendar.YEAR);
         long costs = 0;                                                  // расходы
         long income = 0;                                                 // доходы
         long oldcosts = 0;
@@ -78,19 +59,16 @@ public class ChartsMagicPresenter {
         boolean firstDate = false;
         int year;
         int day;
-
-
         float x = 0;                                                    //ось Х уебищная
-
         // сама логика отбора данных за необходимый период
         toDay.set(dataSt.get(GregorianCalendar.YEAR), dataSt.get(GregorianCalendar.MONTH), dataSt.get(GregorianCalendar.DAY_OF_MONTH));
         while (toDay.compareTo(dataFin) <= 0) {
             year = toDay.get(GregorianCalendar.YEAR);
             mount = toDay.get(GregorianCalendar.MONTH);
             day = toDay.get(GregorianCalendar.DAY_OF_MONTH);
-            if (jouSt.get(new GregorianCalendar(year, mount, day)) != null) {    // проверка а есть ли в базе данные за текущюю дату
-                jouRL = jouSt.get(new GregorianCalendar(year, mount, day));
-                for (int i = 0; i < jouRL.size(); i++) {                // ползем по массиву JournalRecord
+            if (DriverDao.getDataForDay(new GregorianCalendar(year, mount, day)) != null) {    // проверка а есть ли в базе данные за текущюю дату
+                jouRL = DriverDao.getDataForDay(new GregorianCalendar(year, mount, day));
+                for (int i = 0; i < jouRL.size(); i++) {                                      // ползем по массиву JournalRecord
                     jouR = jouRL.get(i);
                     if (jouR.getType() == TypesOfCashObjects.USAGE) {
                         costs = costs + jouR.getAmount();
@@ -125,49 +103,6 @@ public class ChartsMagicPresenter {
         barEntriesCosts.add(new BarEntry(x, costs));
         barEntriesIncome.add(new BarEntry(x, income));
 
-        /*
-        for (int y = yearStart; y <= yearFinish; y++) {
-            if (y == yearFinish) {
-                mountFinish = dataFin.get(GregorianCalendar.MONTH);
-            }
-            for (int m = mounthStart; m <= mountFinish; m++) {
-                if (y == yearFinish && m == mountFinish) {
-                    dayFinish = dataFin.get(GregorianCalendar.DAY_OF_MONTH);
-                } else {
-                    dayFinish =  daysNextMount(m);;
-                }
-                for (int d = dayStart; d <= dayFinish; d++) {                   // по каждому дню
-                    if (jouSt.get(new GregorianCalendar(y, m, d)) != null) {    // проверка а есть ли в базе данные за текущюю дату
-                        jouRL = jouSt.get(new GregorianCalendar(y, m, d));
-                        for (int i = 0; i < jouRL.size(); i++) {                // ползем по массиву JournalRecord
-                            jouR = jouRL.get(i);
-                            if (jouR.getType() == TypesOfCashObjects.USAGE) {
-                                costs = costs + jouR.getAmount();
-                            }
-                            if (jouR.getType() == TypesOfCashObjects.CASH_SOURCE) {
-                                income = income + jouR.getAmount();
-                            }
-                        }
-                    }
-                    if (mount2) {
-                        barEntriesCosts.add(new BarEntry(x, costs));
-                        barEntriesIncome.add(new BarEntry(x, income));
-                        costs = 0;
-                        income = 0;
-                        x++;
-                    }
-                }
-                if (!mount2) {
-                    barEntriesCosts.add(new BarEntry(x, costs));
-                    barEntriesIncome.add(new BarEntry(x, income));
-                    costs = 0;
-                    income = 0;
-                    x++;
-                }
-                dayStart = 1;
-            }
-            mounthStart = 0;
-        }*/
         size = (int) x;
         BarDataSet barDataSetCosts, barDataSetIncome;
         barDataSetCosts = new BarDataSet(barEntriesCosts, "Расходы");
@@ -179,7 +114,6 @@ public class ChartsMagicPresenter {
         data.setHighlightEnabled(false);
         return data;
     }
-
 
     public String[] getCount() {
         //boolean mount2 = dataSt.get(Calendar.YEAR) == dataFin.get(Calendar.YEAR) && (dataFin.get(GregorianCalendar.MONTH) - dataSt.get(GregorianCalendar.MONTH) < 2);
@@ -210,7 +144,6 @@ public class ChartsMagicPresenter {
         return listX;
     }
 
-
     public PieData GetPieData(TypesOfCashObjects type) {// магия для круговых диаграмм
         List<PieEntry> pieEntries = new ArrayList<>();
         ArrayList<Long> expensest = new ArrayList<>();
@@ -227,8 +160,8 @@ public class ChartsMagicPresenter {
             year = toDay.get(GregorianCalendar.YEAR);
             mount = toDay.get(GregorianCalendar.MONTH);
             day = toDay.get(GregorianCalendar.DAY_OF_MONTH);
-            if (jouSt.get(new GregorianCalendar(year, mount, day)) != null) {
-                jouRL = jouSt.get(new GregorianCalendar(year, mount, day));
+            if (DriverDao.getDataForDay(new GregorianCalendar(year, mount, day)) != null) {    // проверка а есть ли в базе данные за текущюю дату
+                jouRL = DriverDao.getDataForDay(new GregorianCalendar(year, mount, day));
                 for (int i = 0; i < jouRL.size(); i++) {
                     jouR = jouRL.get(i);
 
@@ -245,50 +178,6 @@ public class ChartsMagicPresenter {
             }
             toDay.add(GregorianCalendar.DAY_OF_MONTH, 1);
         }
-
-
-
-        /*
-
-        int dayStart = dataSt.get(GregorianCalendar.DAY_OF_MONTH);
-        int dayFinish;
-        int mounthStart = dataSt.get(GregorianCalendar.MONTH);
-        int mountFinish = 11;
-        int yearStart = dataSt.get(GregorianCalendar.YEAR);
-        int yearFinish = dataFin.get(GregorianCalendar.YEAR);
-
-        for (int y = yearStart; y <= yearFinish; y++) {
-            if (y == yearFinish) {
-                mountFinish = dataFin.get(GregorianCalendar.MONTH);
-            }
-            for (int m = mounthStart; m <= mountFinish; m++) {
-                if (y == yearFinish & m == mountFinish) {
-                    dayFinish = dataFin.get(GregorianCalendar.DAY_OF_MONTH);
-                } else {
-                    dayFinish = daysNextMount(m);
-                }
-                for (int d = dayStart; d <= dayFinish; d++) {
-                    if (jouSt.get(new GregorianCalendar(y, m, d)) != null) {
-                        jouRL = jouSt.get(new GregorianCalendar(y, m, d));
-                        for (int i = 0; i < jouRL.size(); i++) {
-                            jouR = jouRL.get(i);
-                            if (jouR.getType() == type) {
-                                if (category.contains(jouR.getName())) {
-                                    money = expensest.get(category.indexOf(jouR.getName())) + jouR.getAmount();
-                                    expensest.set(category.indexOf(jouR.getName()), money);
-                                } else {
-                                    category.add(jouR.getName());
-                                    expensest.add(category.indexOf(jouR.getName()), jouR.getAmount());
-                                }
-                            }
-                        }
-                    }
-                }
-                dayStart = 0;
-            }
-            mounthStart = 0;
-        }
-        */
 
         for (
                 int i = 0; i < expensest.size(); i++)
