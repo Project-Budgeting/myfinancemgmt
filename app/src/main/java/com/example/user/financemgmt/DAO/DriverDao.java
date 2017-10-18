@@ -8,6 +8,7 @@ import com.example.user.financemgmt.DataModel.Usage;
 import com.example.user.financemgmt.TestStorageForDataObjects.Ballance;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +89,19 @@ public class DriverDao {
         journalDao.insertJournalRecordByDate(jr);
 
     }
+    public static void makeRecordInJournal(Object event, long amount,
+                                      String name, String additionalSettings, String idOfEvent) {
+        JournalRecord jr = new JournalRecord(amount, name, additionalSettings, idOfEvent);
+        GregorianCalendar dateOfNow = new GregorianCalendar();
+        jr.setDate(new GregorianCalendar(dateOfNow.get(Calendar.YEAR),
+                dateOfNow.get(Calendar.MONTH),
+                dateOfNow.get(Calendar.DAY_OF_MONTH)));
+        String str = event.getClass().getName();
+        if (event instanceof CashSource) jr.setType(TypesOfCashObjects.CASH_SOURCE);
+        if (event instanceof Usage) jr.setType(TypesOfCashObjects.USAGE);
+        DriverDao.insertRecordInJournal(jr);
+    }
+
     //Выгружает из журнала записи указанного типа за указанный период
     public static HashMap<GregorianCalendar, ArrayList<JournalRecord>> getCustomMapFromStorage
     (GregorianCalendar startDate, GregorianCalendar endDate, TypesOfCashObjects type){

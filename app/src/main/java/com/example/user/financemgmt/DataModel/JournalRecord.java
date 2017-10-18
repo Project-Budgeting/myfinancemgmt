@@ -63,6 +63,14 @@ public class JournalRecord {
         return amount;
     }
 
+    public void setDate(GregorianCalendar date) {
+        this.date = date;
+    }
+
+    public void setType(TypesOfCashObjects type) {
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
@@ -74,26 +82,6 @@ public class JournalRecord {
             return 0;
         }
     }
-
-    public static JournalRecord makeRecordInJournal(Object event, long amount,
-                                                    String name, String additionalSettings, String idOfEvent) {
-        JournalRecord jr = new JournalRecord(amount, name, additionalSettings, idOfEvent);
-        GregorianCalendar dateOfNow = new GregorianCalendar();
-        jr.date = new GregorianCalendar(dateOfNow.get(Calendar.YEAR), dateOfNow.get(Calendar.MONTH), dateOfNow.get(Calendar.DAY_OF_MONTH));
-        switch (event.getClass().getName()) {
-            case "CashSource":
-                jr.type = TypesOfCashObjects.CASH_SOURCE;
-                break;
-            case "Usage":
-                jr.type = TypesOfCashObjects.USAGE;
-                break;
-        }
-        DriverDao.insertRecordInJournal(jr);
-        return jr;
-
-    }
-
-
 
     //создать пустую Map с ключами-датами за определенный период
     //TODO проверить, работает ли метод

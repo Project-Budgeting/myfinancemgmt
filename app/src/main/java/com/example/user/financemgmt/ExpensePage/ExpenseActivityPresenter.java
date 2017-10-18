@@ -53,7 +53,7 @@ public class ExpenseActivityPresenter {
         //todo сделать обработку неверно введенных результатов
         Long amount = Long.parseLong(cost);
         this.source.decrease(amount);
-        JournalRecord.makeRecordInJournal(this.usage,amount,this.usage.getName(),
+        DriverDao.makeRecordInJournal(this.usage,amount,this.usage.getName(),
                                           this.source.getName(),this.usage.getId());
         this.source = null;
         this.usage = null;
