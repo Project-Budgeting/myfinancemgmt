@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'android-apt'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 25
@@ -11,9 +13,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        jackOptions {
-            enabled true
-        }
     }
     buildTypes {
         release {
@@ -22,16 +21,14 @@ android {
         }
     }
     compileOptions {
-        //targetCompatibility 1.8
-        //sourceCompatibility 1.8
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+
+
 dependencies {
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -50,7 +47,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
-   // apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
     testCompile 'junit:junit:4.12'
 }
+
 
