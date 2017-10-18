@@ -12,6 +12,7 @@ import com.example.user.financemgmt.DAO.JournalDao;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Headers;
 
@@ -28,6 +29,7 @@ public class DBDaoFactory extends FactoryDao {
             .baseUrl(this.BASE_URL)
             .client(provideClient())
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
 
     protected OkHttpClient provideClient() {
@@ -39,8 +41,8 @@ public class DBDaoFactory extends FactoryDao {
                     .build();
     }
 
-    private UsageDBInterface getRestService(){
-        if (restService==null) retrofit.create(CategoryUsageDao.class);
+    protected UsageDBInterface getRestService(){
+        if (restService==null) restService = retrofit.create(UsageDBInterface.class);
         return restService;
     }
 
@@ -68,7 +70,9 @@ public class DBDaoFactory extends FactoryDao {
 
     @Override
     public CategoryUsageDao getCategoryUsageDao() {
-        getRestService();
-        return new DBCategoryUsageDao();
+        DBCategoryUsageDao categoryUsageDaoDriver = new DBCategoryUsageDao();
+        categoryUsageDaoDriver.getRestService();
+        return categoryUsageDaoDriver;
+
     }
 }
